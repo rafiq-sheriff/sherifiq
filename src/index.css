@@ -1,0 +1,427 @@
+@import url('https://fonts.googleapis.com/css2?family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Rosnoc';
+  src: url('/assets/font/Rosnoc.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avalance';
+  src: url('/assets/font/avalance/GCAvalanceDemo-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avalance';
+  src: url('/assets/font/avalance/GCAvalanceDemo-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avalance';
+  src: url('/assets/font/avalance/GCAvalanceDemo-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avalance';
+  src: url('/assets/font/avalance/GCAvalanceDemo-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-rosnoc: 'Rosnoc', sans-serif;
+  --font-tomorrow: 'Tomorrow', sans-serif;
+  --font-avalance: 'Avalance', sans-serif;
+
+  --color-cream: #FAF8F4;
+  --color-cream-deep: #F5F0E8;
+  --color-warm-white: #FDFCFA;
+  --color-amber: #C8853A;
+  --color-amber-light: #E8A855;
+  --color-ink: #1A1714;
+  --color-ink-soft: #3D3830;
+  --color-muted: #8C8070;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+@keyframes float-particle {
+
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-120px) translateX(30px);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes badge-shimmer {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+@keyframes cursor-blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes mobile-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.hero-mobile-flow {
+  animation: mobile-scroll 38s linear infinite;
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.tomorrow-thin {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.tomorrow-extralight {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.tomorrow-light {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.tomorrow-regular {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.tomorrow-medium {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.tomorrow-semibold {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.tomorrow-bold {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.tomorrow-extrabold {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.tomorrow-black {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.tomorrow-thin-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.tomorrow-extralight-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.tomorrow-light-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.tomorrow-regular-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.tomorrow-medium-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.tomorrow-semibold-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.tomorrow-bold-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.tomorrow-extrabold-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.tomorrow-black-italic {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Helix AI Cosmic Starfield Background */
+.cosmic-bg {
+  z-index: 0;
+  background: radial-gradient(at top, #623bb226 0, #0000 50%),
+    radial-gradient(at bottom, #393bb21a 0, #0000 50%),
+    radial-gradient(#e2cbff0d 0, #0000 70%),
+    linear-gradient(135deg, oklch(8% 0.02 265), oklch(12% 0.03 270) 25%, oklch(15% 0.02 275) 50%, oklch(12% 0.03 280) 75%, oklch(8% 0.02 285));
+}
+
+.cosmic-bg,
+.starfield {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.starfield {
+  z-index: 1;
+  overflow: hidden;
+}
+
+.starfield:before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  background: oklch(85% 0.15 265);
+  width: 2px;
+  height: 2px;
+  animation: twinkle-large 4s ease-in-out infinite;
+  box-shadow: 120px 180px oklch(80% 0.12 265), 280px 120px oklch(75% 0.1 270), 450px 280px oklch(70% 0.08 275), 680px 160px oklch(80% 0.12 280), 850px 240px oklch(75% 0.1 285), 1020px 100px oklch(70% 0.08 290), 150px 380px oklch(80% 0.12 265), 320px 480px oklch(75% 0.1 270), 580px 420px oklch(70% 0.08 275), 750px 520px oklch(80% 0.12 280), 920px 380px oklch(75% 0.1 285), 180px 680px oklch(70% 0.08 290), 350px 720px oklch(80% 0.12 265), 520px 680px oklch(75% 0.1 270), 780px 720px oklch(70% 0.08 275), 950px 680px oklch(80% 0.12 280), 200px 920px oklch(75% 0.1 285), 400px 880px oklch(70% 0.08 290), 600px 920px oklch(80% 0.12 265), 800px 880px oklch(75% 0.1 270), 1000px 920px oklch(70% 0.08 275);
+}
+
+.starfield:after {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  background: oklch(70% 0.1 265);
+  width: 1px;
+  height: 1px;
+  animation: twinkle-medium 3s ease-in-out 1s infinite;
+  box-shadow: 80px 140px oklch(65% 0.08 270), 200px 80px oklch(60% 0.06 275), 360px 200px oklch(70% 0.1 280), 480px 120px oklch(65% 0.08 285), 640px 200px oklch(60% 0.06 290), 760px 80px oklch(70% 0.1 265), 120px 320px oklch(65% 0.08 270), 240px 400px oklch(60% 0.06 275), 400px 360px oklch(70% 0.1 280), 560px 400px oklch(65% 0.08 285), 720px 320px oklch(60% 0.06 290), 80px 560px oklch(70% 0.1 265), 200px 600px oklch(65% 0.08 270), 360px 560px oklch(60% 0.06 275), 520px 600px oklch(70% 0.1 280), 680px 560px oklch(65% 0.08 285), 800px 600px oklch(60% 0.06 290), 120px 800px oklch(70% 0.1 265), 280px 840px oklch(65% 0.08 270), 440px 800px oklch(60% 0.06 275), 600px 840px oklch(70% 0.1 280), 760px 800px oklch(65% 0.08 285), 920px 840px oklch(60% 0.06 290);
+}
+
+.starfield .small-stars {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.starfield .small-stars:before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  background: oklch(60% 0.05 265);
+  width: 0.5px;
+  height: 0.5px;
+  animation: twinkle-small 2s ease-in-out 0.5s infinite;
+  box-shadow: 60px 100px oklch(55% 0.04 270), 140px 60px oklch(50% 0.03 275), 220px 140px oklch(60% 0.05 280), 300px 80px oklch(55% 0.04 285), 380px 140px oklch(50% 0.03 290), 460px 60px oklch(60% 0.05 265), 540px 100px oklch(55% 0.04 270), 620px 140px oklch(50% 0.03 275), 700px 80px oklch(60% 0.05 280), 780px 100px oklch(55% 0.04 285), 860px 140px oklch(50% 0.03 290), 940px 60px oklch(60% 0.05 265), 100px 240px oklch(55% 0.04 270), 180px 280px oklch(50% 0.03 275), 260px 240px oklch(60% 0.05 280), 340px 280px oklch(55% 0.04 285), 420px 240px oklch(50% 0.03 290), 500px 280px oklch(60% 0.05 265), 580px 240px oklch(55% 0.04 270), 660px 280px oklch(50% 0.03 275), 740px 240px oklch(60% 0.05 280), 820px 280px oklch(55% 0.04 285), 900px 240px oklch(50% 0.03 290), 980px 280px oklch(60% 0.05 265);
+}
+
+.starfield .shooting-star {
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0), oklch(90% 0.25 265), rgba(0, 0, 0, 0));
+  border-radius: 50%;
+  width: 2px;
+  height: 2px;
+  animation: shooting-star 8s linear infinite;
+  position: absolute;
+}
+
+.starfield .shooting-star:first-child {
+  animation-duration: 6s;
+  animation-delay: 0s;
+  top: 20%;
+  left: -10px;
+}
+
+.starfield .shooting-star:nth-child(2) {
+  animation-duration: 7s;
+  animation-delay: 3s;
+  top: 60%;
+  left: -10px;
+}
+
+.starfield .shooting-star:nth-child(3) {
+  animation-duration: 8s;
+  animation-delay: 6s;
+  top: 80%;
+  left: -10px;
+}
+
+@keyframes twinkle-large {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes twinkle-medium {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes twinkle-small {
+
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes shooting-star {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0);
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+    transform: translate(120vw, 80px) scale(1);
+  }
+
+  95% {
+    opacity: 0.5;
+    transform: translate(125vw, 85px) scale(0.5);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(130vw, 90px) scale(0);
+  }
+}
