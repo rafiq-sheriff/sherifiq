@@ -9,6 +9,7 @@ import React, {
   type MouseEvent as ReactMouseEvent,
 } from 'react';
 import { gsap } from 'gsap';
+import { motion } from 'framer-motion';
 import BrandLogo from '../../ui/BrandLogo';
 import './StaggeredMenu.css';
 
@@ -44,6 +45,7 @@ export type StaggeredMenuProps = {
   displayDownloadCv?: boolean;
   downloadCvLabel?: string;
   onDownloadCv?: () => void;
+  isRevealed?: boolean;
 };
 
 const defaultNavItems: MenuItem[] = [
@@ -60,7 +62,7 @@ const defaultSocials: SocialItem[] = [
 
 const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   position = 'right',
-  colors = ['#05030a', '#181538', '#28106f', '#3c1d96'],
+  colors = ['#05030a', '#181538', '#28106f', '#5B72FF'],
   items = defaultNavItems,
   socialItems = defaultSocials,
   displaySocials = true,
@@ -78,6 +80,7 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   displayDownloadCv = false,
   downloadCvLabel = 'Download CV',
   onDownloadCv,
+  isRevealed = true,
 }) => {
   const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -504,7 +507,7 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           const raw =
             colors && colors.length
               ? colors.slice(0, 4)
-              : ['#05030a', '#181538', '#28106f', '#3c1d96'];
+              : ['#05030a', '#181538', '#28106f', '#5B72FF'];
           let arr = [...raw];
           if (arr.length >= 3) {
             const mid = Math.floor(arr.length / 2);
@@ -516,7 +519,21 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         })()}
       </div>
 
-      <header className="staggered-menu-header" aria-label="Main navigation header">
+      <motion.header
+        initial={{ opacity: 0, y: -24, filter: 'blur(8px)' }}
+        animate={
+          isRevealed
+            ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+            : { opacity: 0, y: -24, filter: 'blur(8px)' }
+        }
+        transition={{
+          duration: 0.8,
+          ease: [0.22, 1, 0.36, 1],
+          delay: 0,
+        }}
+        className="staggered-menu-header"
+        aria-label="Main navigation header"
+      >
         <div className="sm-navbar-container flex items-center justify-between w-full">
           <a href="/" className="flex items-center gap-3.5 group cursor-pointer">
             <div className="sm-logo" aria-label="Logo">
@@ -528,21 +545,31 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                   draggable={false}
                 />
               ) : (
-                <BrandLogo
-                  className="h-8 w-auto transform transition-transform duration-500 group-hover:rotate-6"
-                  fill="white"
-                />
+                <div className="w-[42px] h-[52px] sm:w-[44px] sm:h-[54px] bg-[#5b72ff] rounded-[22px] flex items-center justify-center shadow-md transition-transform duration-500 group-hover:scale-105">
+                  <BrandLogo
+                    className="h-6 sm:h-7 w-auto text-white"
+                    fill="#ffffff"
+                    useGradient={false}
+                  />
+                </div>
               )}
             </div>
-            <span
-              className={`font-rosnoc text-2xl md:text-3xl tracking-[0.18em] text-white transition-all duration-500 ease-in-out ${
+            <motion.span
+              initial={{ letterSpacing: '0.35em', opacity: 0 }}
+              animate={
+                isRevealed
+                  ? { letterSpacing: '0.18em', opacity: 1 }
+                  : { letterSpacing: '0.35em', opacity: 0 }
+              }
+              transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+              className={`font-rosnoc text-2xl md:text-3xl text-white transition-all duration-500 ease-in-out ${
                 isScrolled
                   ? 'opacity-0 max-w-0 ml-0 pointer-events-none overflow-hidden'
-                  : 'opacity-100 max-w-[200px] ml-1'
+                  : 'max-w-[200px] ml-1'
               }`}
             >
               SHERIFIQ
-            </span>
+            </motion.span>
           </a>
 
           <div>
@@ -572,7 +599,7 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       <aside
         id="staggered-menu-panel"

@@ -94,7 +94,7 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
       powerPreference: 'high-performance',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.4;
     container.appendChild(renderer.domElement);
@@ -210,7 +210,7 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
     frontFill.position.set(0, 0, 60);
     scene.add(frontFill);
 
-    // ─── Mouse tracking (scoped exclusively to Hero section) ───
+    // ─── Mouse tracking (optimized zero-reflow relative viewport tracking) ───
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
 
     const onMouseMove = (e: MouseEvent) => {
@@ -219,24 +219,8 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
         mouse.ty = 0;
         return;
       }
-      const heroSection = container.closest('section') || container;
-      const heroRect = heroSection.getBoundingClientRect();
-
-      // Deactivate hover tilt if cursor moves outside the Hero section
-      if (
-        e.clientX < heroRect.left ||
-        e.clientX > heroRect.right ||
-        e.clientY < heroRect.top ||
-        e.clientY > heroRect.bottom
-      ) {
-        mouse.tx = 0;
-        mouse.ty = 0;
-        return;
-      }
-
-      const rect = container.getBoundingClientRect();
-      mouse.tx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      mouse.ty = -((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      mouse.tx = (e.clientX / (window.innerWidth || 1) - 0.5) * 2;
+      mouse.ty = -(e.clientY / (window.innerHeight || 1) - 0.5) * 2;
     };
     const onMouseLeave = () => {
       mouse.tx = 0;
@@ -246,11 +230,28 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseleave', onMouseLeave);
 
-    // ─── Animation loop ───
+    // ─── Animation loop with IntersectionObserver Visibility Pause ───
     let time = 0;
     let raf = 0;
+    let isVisible = true;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !raf) {
+          animate();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
 
     const animate = () => {
+      if (!isVisible) {
+        raf = 0;
+        return;
+      }
+
       time += 0.004;
 
       // Fast lerp toward mouse target position
@@ -281,6 +282,7 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
 
     // ─── Cleanup ───
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
       document.removeEventListener('mousemove', onMouseMove);

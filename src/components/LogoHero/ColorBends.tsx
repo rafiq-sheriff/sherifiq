@@ -222,7 +222,24 @@ export default function ColorBends({
     ro.observe(container);
     resizeObserverRef.current = ro;
 
+    let isVisible = true;
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && rafRef.current === null) {
+          loop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    visibilityObserver.observe(container);
+
     const loop = () => {
+      if (!isVisible) {
+        rafRef.current = null;
+        return;
+      }
+
       clock.getDelta();
       const elapsed = clock.elapsedTime;
       material.uniforms.uTime.value = elapsed;
@@ -236,9 +253,10 @@ export default function ColorBends({
       renderer.render(scene, camera);
       rafRef.current = requestAnimationFrame(loop);
     };
-    rafRef.current = requestAnimationFrame(loop);
+    loop();
 
     return () => {
+      visibilityObserver.disconnect();
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
       geometry.dispose();

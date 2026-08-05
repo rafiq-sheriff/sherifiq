@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 
 export default function CapabilitiesMarquee() {
-  const marqueeItems = [
+  const row1Items = [
     'WEBSITE DEVELOPMENT',
     'SAAS DEVELOPMENT',
     'CRM SOLUTIONS',
@@ -14,8 +14,18 @@ export default function CapabilitiesMarquee() {
     'DIGITAL PRODUCTS',
   ];
 
-  const row1Text = marqueeItems.map((item) => `${item} ✦ `).join('');
-  const row2Items = [...marqueeItems.slice(4), ...marqueeItems.slice(0, 4)];
+  const row2Items = [
+    'DIGITAL PRODUCTS',
+    'WEB APPLICATIONS',
+    'BRAND IDENTITY',
+    'UI/UX DESIGN',
+    'AI AUTOMATION',
+    'CRM SOLUTIONS',
+    'SAAS DEVELOPMENT',
+    'WEBSITE DEVELOPMENT',
+  ];
+
+  const row1Text = row1Items.map((item) => `${item} ✦ `).join('');
   const row2Text = row2Items.map((item) => `${item} ✦ `).join('');
 
   return (
@@ -24,13 +34,13 @@ export default function CapabilitiesMarquee() {
       <div className="absolute top-0 bottom-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
       <div className="absolute top-0 bottom-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-      {/* Row 1: Right to Left marquee (ultra slow) */}
+      {/* Row 1: Right to Left marquee */}
       <div className="flex overflow-hidden whitespace-nowrap">
         <motion.div
           animate={{ x: ['0%', '-50%'] }}
           transition={{
             ease: 'linear',
-            duration: 300,
+            duration: 60,
             repeat: Infinity,
           }}
           className="flex whitespace-nowrap font-bold text-lg sm:text-xl md:text-[22px] tracking-wider text-[#181538]/50"
@@ -40,13 +50,13 @@ export default function CapabilitiesMarquee() {
         </motion.div>
       </div>
 
-      {/* Row 2: Left to Right marquee (ultra slow) */}
+      {/* Row 2: Left to Right marquee */}
       <div className="flex overflow-hidden whitespace-nowrap">
         <motion.div
           animate={{ x: ['-50%', '0%'] }}
           transition={{
             ease: 'linear',
-            duration: 300,
+            duration: 60,
             repeat: Infinity,
           }}
           className="flex whitespace-nowrap font-bold text-lg sm:text-xl md:text-[22px] tracking-wider text-[#181538]/50"

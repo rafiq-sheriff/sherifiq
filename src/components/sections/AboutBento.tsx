@@ -19,7 +19,7 @@ function ScrollRevealHeadline() {
   return (
     <h2
       ref={containerRef}
-      className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.25] tracking-tight text-center max-w-[1000px] mx-auto flex flex-wrap justify-center gap-x-[0.3em] gap-y-1 select-none"
+      className="font-sora font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.25] tracking-tight text-center max-w-[1000px] mx-auto flex flex-wrap justify-center gap-x-[0.3em] gap-y-1 select-none"
     >
       {words.map((word, i) => {
         const start = i / words.length;

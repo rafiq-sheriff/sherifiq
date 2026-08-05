@@ -76,7 +76,7 @@ export default function FAQ() {
     >
       <div className="w-full max-w-[1100px] mx-auto">
         {/* Section Heading */}
-        <h2 className="text-4xl sm:text-5xl lg:text-[64px] font-medium tracking-tight text-[#181538] mb-12 sm:mb-16 leading-[1.1]">
+        <h2 className="font-sora font-semibold text-4xl sm:text-5xl lg:text-[64px] tracking-tight text-[#181538] mb-12 sm:mb-16 leading-[1.1] text-center">
           Frequently Asked Question
         </h2>
 
@@ -113,7 +113,7 @@ export default function FAQ() {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
+                      className="overflow-hidden transform-gpu"
                     >
                       <p className="pt-4 pb-2 text-sm sm:text-base lg:text-[17px] text-neutral-800 leading-relaxed font-normal max-w-[950px]">
                         {item.answer}

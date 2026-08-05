@@ -187,9 +187,9 @@ export default function CinematicLoader({ onComplete, oncePerSession = false }: 
               {/* Logo container displaying liquid fill synced with loading progress */}
               <div className="flex items-center justify-center p-3">
                 <BrandLogo
-                  className="w-12 h-auto sm:w-14 md:w-16"
-                  baseFill="#e4e4e7"
-                  fill="#05030a"
+                  className="w-14 h-auto sm:w-16 md:w-20"
+                  baseFill="rgba(91, 114, 255, 0.15)"
+                  fill="#5b72ff"
                   animatedFill={true}
                   progress={progress}
                 />
@@ -213,7 +213,7 @@ export default function CinematicLoader({ onComplete, oncePerSession = false }: 
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="fixed bottom-8 right-8 sm:bottom-10 sm:right-12 z-40 flex items-baseline pointer-events-none"
           >
-            <span className="text-3xl sm:text-4xl md:text-5xl font-sans font-light tracking-tighter text-neutral-950 tabular-nums select-none">
+            <span className="text-3xl sm:text-4xl md:text-5xl font-sans font-light tracking-tighter text-[#181538] tabular-nums select-none">
               {progress}%
             </span>
           </motion.div>

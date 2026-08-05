@@ -163,7 +163,7 @@ export default function HeroLightBeam({
       powerPreference: 'high-performance',
       alpha: false,
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.display = 'block';
@@ -182,9 +182,8 @@ export default function HeroLightBeam({
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!interactive) return;
-      const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+      const x = (e.clientX / (window.innerWidth || 1)) * 2 - 1;
+      const y = -((e.clientY / (window.innerHeight || 1)) * 2 - 1);
       targetMouseRef.current.set(x, y);
     };
 
@@ -193,9 +192,26 @@ export default function HeroLightBeam({
     }
 
     const clock = new THREE.Clock();
-    let animId: number;
+    let animId: number = 0;
+    let isVisible = true;
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animId) {
+          loop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    visibilityObserver.observe(container);
 
     const loop = () => {
+      if (!isVisible) {
+        animId = 0;
+        return;
+      }
+
       material.uniforms.uTime.value = clock.getElapsedTime();
 
       // Smooth mouse lerp
@@ -205,9 +221,10 @@ export default function HeroLightBeam({
       renderer.render(scene, camera);
       animId = requestAnimationFrame(loop);
     };
-    animId = requestAnimationFrame(loop);
+    loop();
 
     return () => {
+      visibilityObserver.disconnect();
       cancelAnimationFrame(animId);
       resizeObserver.disconnect();
       if (interactive) window.removeEventListener('mousemove', handleMouseMove);

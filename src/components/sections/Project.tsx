@@ -1,210 +1,153 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
-import SavedColorBendsBackground from '../Backgrounds/SavedColorBendsBackground';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import BrandLogo from '../ui/BrandLogo';
 
-interface ProjectItem {
+export interface WorkItem {
   id: number;
-  category: string;
   title: string;
-  description: string;
+  category: string;
   image: string;
-  link: string;
+  link?: string;
+  disabled?: boolean;
 }
 
-const projects: ProjectItem[] = [
+export const worksData: WorkItem[] = [
   {
     id: 1,
-    category: '2025 * IT * Website',
     title: 'Helix Ai',
-    description:
-      'An award-winning AI-powered website developed for an IT innovation challenge, earning the Honourable Mention Award at the Google Chrome AI Hackathon 2025.',
-    image: '/assets/projects/helix.png',
-    link: '#',
+    category: '2025 • IT • Website',
+    image: '/assets/projects/helix.webp',
+    link: 'https://helix-ai.ascodelabs.com',
   },
   {
     id: 2,
-    category: '2025 * Personal * Website',
     title: 'Personal Portfolio',
-    description:
-      'A modern portfolio website crafted to showcase projects, achievements, and a refined digital presence.',
-    image: '/assets/projects/portfolio.png',
-    link: '#',
+    category: '2025 • Personal • Website',
+    image: '/assets/projects/portfolio.webp',
+    link: 'https://rafiqsheriff-portfolio.vercel.app',
   },
   {
     id: 3,
-    category: '2025 * Enterprise * SaaS',
-    title: 'AMS Platform',
-    description:
-      'A comprehensive attendance and workforce management system built for high efficiency and real-time operational insights.',
-    image: '/assets/projects/ams.png',
-    link: '#',
+    title: 'S H Health Centre',
+    category: '2026 • Healthcare • Platform',
+    image: '/assets/projects/s-h-health-center.webp',
+    link: 'https://shhealthcentre.com',
   },
   {
     id: 4,
-    category: '2025 * Product * Mobile & Web',
     title: 'Habit Trace',
-    description:
-      'An intuitive habit tracking web application designed to build consistent routines and empower personal productivity.',
-    image: '/assets/projects/habit-trace.png',
-    link: '#',
+    category: '2026 • Product • Mobile & Web',
+    image: '/assets/projects/habit-trace.webp',
+    link: 'https://habit-trace.vercel.app',
   },
   {
     id: 5,
-    category: '2025 * Healthcare * Platform',
-    title: 'S-H Health Centre',
-    description:
-      'A modern healthcare portal for seamless patient bookings, record management, and digital health services.',
-    image: '/assets/projects/s-h-health-centre.png',
-    link: '#',
+    title: 'AMS Platform',
+    category: '2026 • Enterprise • SaaS',
+    image: '/assets/projects/ams.webp',
+    link: 'https://attendance-fixed-frontend.vercel.app',
   },
 ];
 
-function Card({
-  project,
-  index,
-  total,
-  progress,
-}: {
-  project: ProjectItem;
-  index: number;
-  total: number;
-  progress: MotionValue<number>;
-}) {
-  const cardStep = 0.16;
-  const entryStart = index === 0 ? 0 : (index - 1) * cardStep + 0.05;
-  const entryEnd = index === 0 ? 0 : entryStart + cardStep;
+export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
+  // 5 boxes 2-1-2 Wireframe layout:
+  // Index 0, 1: 1 col each (Row 1: 2 boxes)
+  // Index 2: lg:col-span-2 (Row 2: 1 wide box)
+  // Index 3, 4: 1 col each (Row 3: 2 boxes)
+  const isWide = index === 2;
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  // Y Position:
-  // Card 0 (Helix Ai) is ALREADY seated at y = 0 right at progress = 0.
-  // Cards 1..4 slide up sequentially from 800px below as user scrolls.
-  const y = useTransform(
-    progress,
-    index === 0
-      ? [0, 1]
-      : [entryStart, entryEnd, 1],
-    index === 0
-      ? [0, -((total - 1) * 16)]
-      : [800, 0, -((total - 1 - index) * 16)]
-  );
+  // Scroll-driven parallax target per individual card
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ['start end', 'end start'],
+  });
 
-  // Scale down as later cards stack over this card
-  const targetScale = 1 - (total - 1 - index) * 0.035;
-  const scale = useTransform(
-    progress,
-    index === 0
-      ? [0.05, 1]
-      : [entryEnd, 1],
-    index === 0
-      ? [1, Math.max(0.86, targetScale)]
-      : [1, Math.max(0.86, targetScale)]
-  );
-
-  // Opacity
-  const opacity = useTransform(
-    progress,
-    index === 0
-      ? [0, 1]
-      : [entryStart, entryStart + cardStep * 0.3, 1],
-    index === 0
-      ? [1, 1]
-      : [0, 1, 1]
-  );
+  // Smooth Y translation as user scrolls up & down past the card
+  const imageY = useTransform(scrollYProgress, [0, 1], ['-12%', '12%']);
 
   return (
-    <motion.div
-      style={{
-        y,
-        scale,
-        opacity,
-        zIndex: index + 1,
-      }}
-      className="absolute w-full max-w-[1020px] bg-white rounded-[24px] sm:rounded-[28px] p-6 sm:p-8 lg:p-10 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] border border-neutral-200 select-none overflow-hidden text-neutral-900 origin-top"
+    <div
+      ref={cardRef}
+      className={`relative group overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-3xl min-h-[390px] sm:min-h-[450px] md:min-h-[550px] lg:min-h-[620px] ${isWide ? 'lg:col-span-2' : ''
+        } bg-neutral-900/60 border border-white/10 cursor-pointer transform-gpu`}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-        {/* Left Text Content */}
-        <div className="lg:col-span-5 flex flex-col justify-between py-2">
-          <div>
-            <span className="text-[13px] sm:text-[14px] font-normal text-neutral-600 tracking-wide block mb-3">
-              {project.category}
-            </span>
-
-            <h3 className="text-3xl sm:text-4xl lg:text-[38px] font-bold text-neutral-900 tracking-tight mb-4 leading-tight">
-              {project.title}
-            </h3>
-
-            <p className="text-neutral-600 text-[14px] sm:text-[15px] font-normal leading-relaxed mb-8 max-w-[400px]">
-              {project.description}
-            </p>
-          </div>
-
-          <div>
-            <a
-              href={project.link}
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-neutral-900 text-neutral-900 text-[14px] font-medium hover:bg-neutral-900 hover:text-white transition-colors duration-200 cursor-pointer"
-            >
-              View Project
-            </a>
-          </div>
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block h-full"
+        href={item.link || '#'}
+      >
+        {/* Parallax Image Container (Scroll-driven up & down movement) */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-xl sm:rounded-2xl lg:rounded-3xl">
+          <motion.img
+            style={{ y: imageY, scale: 1.18 }}
+            alt={item.title}
+            loading="lazy"
+            decoding="async"
+            src={item.image}
+            className="absolute inset-0 w-full h-full object-cover transform-gpu will-change-transform"
+          />
+          {/* Dark Overlay for crisp text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10 z-[1] rounded-xl sm:rounded-2xl lg:rounded-3xl pointer-events-none" />
         </div>
 
-        {/* Right Image Container */}
-        <div className="lg:col-span-7 relative">
-          <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-neutral-100 shadow-sm border border-neutral-100 flex items-center justify-center max-h-[350px] sm:max-h-[380px]">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-auto max-h-[350px] sm:max-h-[380px] object-cover rounded-2xl sm:rounded-3xl transform transition-transform duration-500 hover:scale-[1.02]"
-            />
-          </div>
+        {/* Foreground Content */}
+        <div className="relative z-10 h-full flex flex-col justify-between p-5 sm:p-6 md:p-8 select-none">
+          <p className="font-sora font-semibold text-[32.45px] lg:text-[43.5px] text-white tracking-[-0.05em] max-w-[400px] whitespace-pre-line leading-[45px] sm:leading-[50px] md:leading-[60px]">
+            {item.title}
+          </p>
+          <h3 className="font-normal text-white tracking-tight text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[28px] px-1 sm:px-6 py-2">
+            {item.category}
+          </h3>
         </div>
-      </div>
-    </motion.div>
+      </a>
+    </div>
   );
 }
 
 export default function Project() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
   return (
-    <div
-      ref={containerRef}
+    <section
       id="selected-projects"
-      className="relative w-full bg-white select-none"
-      style={{ height: `${(projects.length + 3) * 100}vh` }}
+      className="relative w-full bg-white text-neutral-900 py-16 lg:py-24 px-4 sm:px-8 lg:px-12 overflow-hidden select-none"
     >
-      {/* Sticky Stage Container on White Background */}
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center p-0 overflow-hidden bg-white">
-        <section
-          className="relative w-full h-full bg-[#05030a] text-white flex flex-col items-center justify-start pt-10 sm:pt-14 pb-8 overflow-hidden select-none transform-gpu origin-center"
-        >
-          {/* Color Bends Background */}
-          <SavedColorBendsBackground />
-
-          {/* Fixed Section Heading */}
-          <h2 className="relative z-50 text-3xl sm:text-4xl lg:text-[44px] font-bold text-white tracking-tight text-center drop-shadow-lg mb-6 sm:mb-10">
+      <div className="relative z-10 max-w-[1400px] mx-auto">
+        {/* Section Heading */}
+        <div className="mb-8 lg:mb-12 px-2 text-center">
+          <h2 className="font-sora font-semibold text-[36px] sm:text-[50px] lg:text-[68px] text-[#181538] tracking-tight leading-tight">
             Selected Projects
           </h2>
+        </div>
 
-          {/* Card Stage Area */}
-          <div className="relative w-full max-w-[1020px] flex-1 flex items-start justify-center z-10 px-4 sm:px-8 pt-2 sm:pt-4">
-            {projects.map((project, index) => (
-              <Card
-                key={project.id}
-                project={project}
-                index={index}
-                total={projects.length}
-                progress={scrollYProgress}
+        {/* 5 Boxes 2-1-2 Grid Layout */}
+        <div className="grid lg:grid-cols-2 sm:grid-cols-1 mt-6 lg:mt-10 gap-5 md:gap-10 lg:gap-5">
+          {worksData.map((item, index) => (
+            <WorkCard key={item.id} item={item} index={index} />
+          ))}
+        </div>
+
+        {/* View All Projects Button */}
+        <div className="mt-12 lg:mt-16 flex justify-center">
+          <a
+            href="#all-projects"
+            className="group inline-flex items-center justify-between gap-4 sm:gap-6 bg-[#5b72ff] text-white hover:bg-[#4760ff] transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg shadow-blue-500/20"
+          >
+            <span className="font-sans font-medium tracking-tight text-white">
+              View All Projects
+            </span>
+            <span className="w-10 h-10 sm:w-11 sm:h-11 bg-white rounded-full flex items-center justify-center text-[#5b72ff] shrink-0 group-hover:bg-neutral-100 transition-colors duration-200 shadow-sm overflow-hidden">
+              <BrandLogo
+                className="h-4 sm:h-5 w-auto text-[#5b72ff] transition-transform duration-500 ease-out group-hover:rotate-45"
+                fill="#5b72ff"
+                useGradient={false}
               />
-            ))}
-          </div>
-        </section>
+            </span>
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

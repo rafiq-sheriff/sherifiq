@@ -6,16 +6,34 @@ import LogoHero from './components/LogoHero/LogoHero';
 import CapabilitiesMarquee from './components/sections/CapabilitiesMarquee';
 import AboutBento from './components/sections/AboutBento';
 import Bento from './components/sections/Bento';
-import HowWeWork from './components/sections/HowWeWork';
+import Project from './components/sections/Project';
+// import HowWeWork from './components/sections/HowWeWork';
+import CTA from './components/sections/CTA';
 import FAQ from './components/sections/FAQ';
+import Footer from './components/navigator/footer/Footer';
 import CinematicLoader from './components/ui/CinematicLoader';
 import StaggeredMenu from './components/navigator/staggered-menu/StaggeredMenu';
+import LogoPage from './pages/LogoPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const lenisRef = useRef<Lenis | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [logoSettled, setLogoSettled] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  if (currentPath === '/logo' || currentPath === '/logo/') {
+    return <LogoPage />;
+  }
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -36,7 +54,7 @@ export default function App() {
     };
 
     gsap.ticker.add(updateRaf);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
       gsap.ticker.remove(updateRaf);
@@ -48,6 +66,9 @@ export default function App() {
     setIsLoading(false);
     if (lenisRef.current) {
       lenisRef.current.start();
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
     }
   };
 
@@ -57,16 +78,25 @@ export default function App() {
       
       {/* Global Fixed Staggered Menu as seen on portfolio website */}
       <StaggeredMenu
+        isRevealed={logoSettled}
         isFixed={true}
         position="right"
-        colors={['#05030a', '#181538', '#28106f', '#3c1d96']}
+        colors={['#05030a', '#181538', '#28106f', '#5B72FF']}
         accentColor="#8b5cf6"
         displayDownloadCv={false}
+        onMenuOpen={() => {
+          lenisRef.current?.stop();
+        }}
+        onMenuClose={() => {
+          lenisRef.current?.start();
+        }}
         items={[
           { label: 'Home', ariaLabel: 'Go to Home section', link: '#hero' },
           { label: 'About', ariaLabel: 'Go to About section', link: '#about-bento' },
-          { label: 'Archive', ariaLabel: 'Go to Archive section', link: '#bento' },
-          { label: 'Contact', ariaLabel: 'Go to Contact section', link: '#faq' },
+          { label: 'Stats', ariaLabel: 'Go to Stats section', link: '#bento' },
+          { label: 'Projects', ariaLabel: 'Go to Selected Projects section', link: '#selected-projects' },
+          { label: 'Logo', ariaLabel: 'Go to Brand Logo showcase page', link: '/logo' },
+          { label: 'Contact', ariaLabel: 'Go to Contact section', link: '#cta' },
         ]}
         socialItems={[
           { label: 'Instagram', link: 'https://instagram.com' },
@@ -75,14 +105,20 @@ export default function App() {
       />
 
       <div className="relative z-10">
-        <LogoHero isRevealed={!isLoading} />
+        <LogoHero
+          isRevealed={!isLoading}
+          isContentRevealed={logoSettled}
+          onLogoSettled={() => setLogoSettled(true)}
+        />
         <CapabilitiesMarquee />
         <AboutBento />
         <Bento />
-        <HowWeWork />
+        <Project />
+        {/* <HowWeWork /> */}
+        <CTA />
         <FAQ />
+        <Footer />
       </div>
     </main>
   );
 }
-
