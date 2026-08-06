@@ -162,16 +162,16 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-4 pb-4 text-xs sm:text-sm font-light text-neutral-400">
             {/* Nav Links */}
             <div className="flex items-center flex-wrap gap-x-6 gap-y-2">
-              <a href="#hero" className="hover:text-white transition-colors">
+              <a href="/" className="hover:text-white transition-colors">
                 Home
               </a>
-              <a href="#about-bento" className="hover:text-white transition-colors">
+              <a href="/about" className="hover:text-white transition-colors">
                 About
               </a>
               <a href="#bento" className="hover:text-white transition-colors">
                 Stats
               </a>
-              <a href="#selected-projects" className="hover:text-white transition-colors">
+              <a href="/project" className="hover:text-white transition-colors">
                 Projects
               </a>
               <a href="#how-we-work" className="hover:text-white transition-colors">

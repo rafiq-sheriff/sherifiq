@@ -11,15 +11,10 @@ function createLogoShapes(): THREE.Shape[] {
   const cx = 21.5;
   const cy = 32.5;
 
-  // Transform SVG coords → Three.js coords (center + flip Y)
   const tx = (x: number) => x - cx;
   const ty = (y: number) => cy - y;
 
-  // ── Shape 1: Top-left arrow piece ──
-  // SVG: M0.56926 26.5283 L26.2157 0.576049
-  //      C27.4317 -0.654514 29.511 0.217021 29.511 1.9573
-  //      V29.8629 H1.93424
-  //      C0.214465 29.8629 -0.646802 27.7588 0.56926 26.5283 Z
+  // ── Shape 1: Top arrow piece ──
   const shape1 = new THREE.Shape();
   shape1.moveTo(tx(0.56926), ty(26.5283));
   shape1.lineTo(tx(26.2157), ty(0.576049));
@@ -36,11 +31,7 @@ function createLogoShapes(): THREE.Shape[] {
     tx(0.56926),   ty(26.5283)
   );
 
-  // ── Shape 2: Bottom-right arrow piece ──
-  // SVG: M42.4301 38.4713 L16.7836 64.4236
-  //      C15.5676 65.6541 13.4883 64.7826 13.4883 63.0424
-  //      V35.1367 H41.0651
-  //      C42.7848 35.1367 43.6461 37.2408 42.4301 38.4713 Z
+  // ── Shape 2: Bottom arrow piece ──
   const shape2 = new THREE.Shape();
   shape2.moveTo(tx(42.4301), ty(38.4713));
   shape2.lineTo(tx(16.7836), ty(64.4236));
@@ -60,12 +51,11 @@ function createLogoShapes(): THREE.Shape[] {
   return [shape1, shape2];
 }
 
-interface Logo3DProps {
-  tintColor?: string;
+interface CrystalGlassLogo3DProps {
   interactive?: boolean;
 }
 
-export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Logo3DProps) {
+export default function CrystalGlassLogo3D({ interactive = true }: CrystalGlassLogo3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const interactiveRef = useRef(interactive);
 
@@ -84,52 +74,40 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
     const scene = new THREE.Scene();
 
     // ─── Camera ───
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 1000);
     camera.position.z = 100;
 
-    // ─── Renderer ───
+    // ─── Renderer with High Precision & Tone Mapping ───
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
       powerPreference: 'high-performance',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.4;
+    renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
 
-    // ─── Environment Map (dark neutral for chrome contrast) ───
+    // ─── Environment Map for Prismatic Glass Refractions & Glare ───
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     const envScene = new THREE.Scene();
 
+    // Dark sky backdrop
     const skyGeo = new THREE.SphereGeometry(100, 32, 32);
-    const skyColors = new Float32Array(skyGeo.attributes.position.count * 3);
-    for (let i = 0; i < skyGeo.attributes.position.count; i++) {
-      const y = skyGeo.attributes.position.getY(i);
-      const t = (y + 100) / 200;
-      const v = 0.02 + t * 0.10;
-      skyColors[i * 3]     = v;
-      skyColors[i * 3 + 1] = v;
-      skyColors[i * 3 + 2] = v;
-    }
-    skyGeo.setAttribute('color', new THREE.Float32BufferAttribute(skyColors, 3));
-    envScene.add(
-      new THREE.Mesh(
-        skyGeo,
-        new THREE.MeshBasicMaterial({ side: THREE.BackSide, vertexColors: true })
-      )
-    );
+    const skyMat = new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0x050508 });
+    envScene.add(new THREE.Mesh(skyGeo, skyMat));
 
-    // 3 Blue shades matched to hero background palette (#38bdf8, #2563eb, #1d4ed8)
-    const spots = [
-      { pos: [35, 30, 30], color: 0x38bdf8, r: 14 },   // Shade 1: Electric Sky Blue Glare Spot
-      { pos: [40, -15, 20], color: 0x60a5fa, r: 12 },  // Shade 1 Accent: Bright Cyan Blue
-      { pos: [-35, -30, 30], color: 0x2563eb, r: 14 }, // Shade 2: Royal Electric Blue Glare Spot
-      { pos: [-40, 15, 20], color: 0x1d4ed8, r: 12 },  // Shade 3: Deep Ocean Blue Spot
-      { pos: [0, 0, 45], color: 0x93c5fd, r: 8 },      // Soft Electric Blue Specular Core (No white!)
-    ] as const;
-    spots.forEach(({ pos, color, r }) => {
+    // Prismatic glare light sources for chromatic glass reflections (Cyan, Royal Blue, Electric Purple, White Rim)
+    const glareSources = [
+      { pos: [45, 45, 50], color: 0x38bdf8, r: 16 },  // Electric Cyan Glare
+      { pos: [-45, -45, 50], color: 0x818cf8, r: 16 }, // Soft Prismatic Violet
+      { pos: [50, -30, 40], color: 0x60a5fa, r: 14 },  // Sky Blue Bevel Highlight
+      { pos: [-50, 30, 40], color: 0xc084fc, r: 14 },  // Magenta Dispersion Flare
+      { pos: [0, 60, 30], color: 0xffffff, r: 12 },    // Bright Specular Core
+      { pos: [0, -60, -30], color: 0x38bdf8, r: 15 },  // Rim Light Reflection
+    ];
+    glareSources.forEach(({ pos, color, r }) => {
       const m = new THREE.Mesh(
         new THREE.SphereGeometry(r, 16, 16),
         new THREE.MeshBasicMaterial({ color })
@@ -138,86 +116,79 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
       envScene.add(m);
     });
 
-    // Blurred PMREM environment map generation for dreamy, soft-focus shader reflections
-    const envMap = pmremGenerator.fromScene(envScene, 0.25).texture;
+    const envMap = pmremGenerator.fromScene(envScene, 0.05).texture;
     scene.environment = envMap;
 
-    // ─── Material (Soft Blurry Metallic Shader Finish) ───
-    const material = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color('#555555'),
-      metalness: 0.92,
-      roughness: 0.38,             // Diffuses specular highlights into smooth, soft, blurry blue glares
-      clearcoat: 0.9,
-      clearcoatRoughness: 0.25,    // Soft blurry clearcoat gloss
-      reflectivity: 1.0,
-      envMap,
-      envMapIntensity: 4.8,        // Radiant, soft-focus blue shader glare
+    // ─── Physical Crystal Glass Material ───
+    const crystalMaterial = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#ffffff'),
+      transparent: true,
+      opacity: 0.98,
+      roughness: 0.04,          // Ultra-smooth, crystal clear surface finish
+      metalness: 0.0,
+      transmission: 0.96,       // Light passes through for real physical glass transparency
+      ior: 1.52,                // Index of refraction for crystal glass
+      thickness: 4.5,           // Internal refraction depth & caustics
+      dispersion: 0.09,         // Chromatic dispersion (rainbow prismatic bevel edges!)
+      reflectivity: 0.95,
+      clearcoat: 1.0,           // Glossy clearcoat layer
+      clearcoatRoughness: 0.02,
+      envMapIntensity: 4.2,
       side: THREE.DoubleSide,
     });
 
-    // ─── Logo Geometry ───
+    // ─── Logo Extruded Geometry ───
     const shapes = createLogoShapes();
     const extrudeSettings: THREE.ExtrudeGeometryOptions = {
-      depth: 6,
+      depth: 6.5,
       bevelEnabled: true,
-      bevelThickness: 1.4,
-      bevelSize: 1.0,
+      bevelThickness: 2.2,
+      bevelSize: 1.6,
       bevelOffset: 0,
-      bevelSegments: 12,
+      bevelSegments: 20,
     };
 
     const group = new THREE.Group();
     shapes.forEach((shape) => {
       const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-      const mesh = new THREE.Mesh(geo, material);
+      const mesh = new THREE.Mesh(geo, crystalMaterial);
       group.add(mesh);
     });
 
-    // Center the whole group
+    // Center pivot point
     const box = new THREE.Box3().setFromObject(group);
     const center = box.getCenter(new THREE.Vector3());
     group.position.set(-center.x, -center.y, -center.z);
 
-    // Wrap in pivot so rotations happen around the center
     const pivot = new THREE.Group();
     pivot.add(group);
     scene.add(pivot);
 
-    // ─── Lights (3 Matching Blue Background Shades) ───
-    scene.add(new THREE.AmbientLight(0x0a1638, 0.6));
+    // ─── Lighting Setup ───
+    scene.add(new THREE.AmbientLight(0x050510, 0.5));
 
-    // Shade 1: Electric Sky Blue Light (right/top)
-    const cyanKey = new THREE.DirectionalLight(0x38bdf8, 5.0);
-    cyanKey.position.set(40, 25, 30);
-    scene.add(cyanKey);
+    // Directional Key Lights for Sharp Edge Specular Highlights & Bevel Flare
+    const keyLight1 = new THREE.DirectionalLight(0xe0f2fe, 4.5);
+    keyLight1.position.set(40, 35, 60);
+    scene.add(keyLight1);
 
-    const cyanAccent = new THREE.PointLight(0x60a5fa, 4.2, 300);
-    cyanAccent.position.set(35, -10, 45);
-    scene.add(cyanAccent);
+    const keyLight2 = new THREE.DirectionalLight(0x818cf8, 4.0);
+    keyLight2.position.set(-40, -35, 50);
+    scene.add(keyLight2);
 
-    // Shade 2: Royal Electric Blue Light (left/bottom)
-    const blueKey = new THREE.DirectionalLight(0x2563eb, 5.0);
-    blueKey.position.set(-40, -25, 30);
-    scene.add(blueKey);
+    const rimLight = new THREE.PointLight(0x38bdf8, 5.0, 200);
+    rimLight.position.set(0, 0, 80);
+    scene.add(rimLight);
 
-    // Shade 3: Deep Ocean Blue Light
-    const deepBlueAccent = new THREE.PointLight(0x1d4ed8, 4.2, 300);
-    deepBlueAccent.position.set(-35, 15, 45);
-    scene.add(deepBlueAccent);
+    const topFill = new THREE.DirectionalLight(0xffffff, 2.5);
+    topFill.position.set(0, 50, 20);
+    scene.add(topFill);
 
-    // Front Fill Light: Electric Sky Blue Tint (Replaced plain white light)
-    const frontFill = new THREE.DirectionalLight(0x93c5fd, 1.8);
-    frontFill.position.set(0, 0, 60);
-    scene.add(frontFill);
-
-    // ─── Mouse tracking (optimized zero-reflow relative viewport tracking) ───
+    // ─── Mouse tracking ───
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
 
     const onMouseMove = (e: MouseEvent) => {
-      if (
-        !interactiveRef.current ||
-        (typeof window !== 'undefined' && (window.innerWidth < 1024 || window.matchMedia('(pointer: coarse)').matches))
-      ) {
+      if (!interactiveRef.current) {
         mouse.tx = 0;
         mouse.ty = 0;
         return;
@@ -233,7 +204,7 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseleave', onMouseLeave);
 
-    // ─── Animation loop with IntersectionObserver Visibility Pause ───
+    // ─── Animation loop with Visibility Observer ───
     let time = 0;
     let raf = 0;
     let isVisible = true;
@@ -255,25 +226,24 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
         return;
       }
 
-      time += 0.004;
+      time += 0.005;
 
-      // Fast lerp toward mouse target position
-      mouse.x += (mouse.tx - mouse.x) * 0.22;
-      mouse.y += (mouse.ty - mouse.y) * 0.22;
+      mouse.x += (mouse.tx - mouse.x) * 0.18;
+      mouse.y += (mouse.ty - mouse.y) * 0.18;
 
-      // Mouse-driven rotation + subtle idle sway
-      pivot.rotation.y = mouse.x * 0.55 + Math.sin(time) * 0.08;
-      pivot.rotation.x = -mouse.y * 0.4 + Math.cos(time * 0.7) * 0.04;
+      // Mouse interactive tilt + smooth continuous 3D floating animation
+      pivot.rotation.y = mouse.x * 0.5 + Math.sin(time) * 0.06;
+      pivot.rotation.x = -mouse.y * 0.35 + Math.cos(time * 0.8) * 0.04;
 
-      // Subtle floating
-      pivot.position.y = Math.sin(time * 1.3) * 0.6;
+      // Gentle floating animation
+      pivot.position.y = Math.sin(time * 1.2) * 0.8;
 
       renderer.render(scene, camera);
       raf = requestAnimationFrame(animate);
     };
     animate();
 
-    // ─── Resize ───
+    // ─── Resize Handler ───
     const onResize = () => {
       const w = container.clientWidth;
       const h = container.clientHeight;
@@ -293,7 +263,7 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
       renderer.dispose();
       pmremGenerator.dispose();
       envMap.dispose();
-      material.dispose();
+      crystalMaterial.dispose();
       shapes.forEach((_, i) => {
         const mesh = group.children[i] as THREE.Mesh;
         mesh.geometry.dispose();
@@ -302,7 +272,7 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
         container.removeChild(renderer.domElement);
       }
     };
-  }, [tintColor]);
+  }, []);
 
   return (
     <div

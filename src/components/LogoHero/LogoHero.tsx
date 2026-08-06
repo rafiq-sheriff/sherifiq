@@ -105,16 +105,16 @@ export default function LogoHero({
             >
               {/* Three.js 3D Logo */}
               <div className="w-full h-full">
-                <Logo3D tintColor={tintColor} interactive={isInteractive} />
+                <Logo3D tintColor={tintColor} interactive={isInteractive && typeof window !== 'undefined' && window.innerWidth > 1024} />
               </div>
             </motion.div>
           </motion.div>
 
           {/* Grid Content Overlay */}
-          <div className="relative z-20 flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 pt-20 lg:pt-16 items-center w-full pointer-events-none">
-            {/* Left Column */}
-            <div className="flex flex-col justify-between h-full pt-4 pb-2 lg:pt-8 lg:pb-2 pointer-events-none">
-              {/* Top-Left: Eyebrow / Badge with Sheen Sweep */}
+          <div className="relative z-20 flex-1 flex flex-col lg:grid lg:grid-cols-2 justify-between gap-6 lg:gap-0 pt-16 sm:pt-20 lg:pt-16 items-center lg:items-stretch w-full pointer-events-none text-center lg:text-left">
+            {/* Left Column / Mobile Top Portion: Badge + Title */}
+            <div className="flex flex-col justify-start lg:justify-between h-auto lg:h-full pt-4 pb-2 lg:pt-8 lg:pb-2 pointer-events-none w-full items-center lg:items-start">
+              {/* Top-Left: Eyebrow / Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
                 animate={
@@ -127,7 +127,7 @@ export default function LogoHero({
                   ease: [0.22, 1, 0.36, 1],
                   delay: isContentRevealed ? 0.10 : 0,
                 }}
-                className="pointer-events-auto"
+                className="pointer-events-auto mx-auto lg:mx-0"
               >
                 <div className="relative overflow-hidden inline-flex items-center border border-white/20 bg-white/[0.05] backdrop-blur-md px-4 py-2 rounded-full text-xs md:text-sm font-medium tracking-wide shadow-sm">
                   {/* Animated Shimmer Flare Bar */}
@@ -147,9 +147,9 @@ export default function LogoHero({
                 </div>
               </motion.div>
 
-              {/* Bottom-Left: Masked Editorial Heading Reveal */}
-              <div className="pointer-events-auto mt-auto pt-16 lg:pt-0">
-                <h1 className="font-sora font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-[1.15] tracking-tight max-w-xl">
+              {/* Title (Top area on mobile) */}
+              <div className="pointer-events-auto mt-4 lg:mt-auto pt-4 lg:pt-0">
+                <h1 className="font-sora font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-[1.15] tracking-tight max-w-xl text-center lg:text-left">
                   {[
                     'We Build Digital',
                     'Products That Drive',
@@ -184,9 +184,9 @@ export default function LogoHero({
               </div>
             </div>
 
-            {/* Right Column */}
-            <div className="flex flex-col justify-between h-full pt-4 pb-2 lg:pt-8 lg:pb-2 items-start lg:items-end text-left pointer-events-none">
-              {/* Top-Right: Description */}
+            {/* Right Column / Mobile Bottom Portion: Description + Button */}
+            <div className="flex flex-col justify-end lg:justify-between h-auto lg:h-full pt-2 lg:pt-8 pb-2 items-center lg:items-end text-center lg:text-right pointer-events-none w-full mt-auto lg:mt-0">
+              {/* Description (Positioned down above the button on mobile) */}
               <motion.div
                 initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
                 animate={
@@ -199,14 +199,14 @@ export default function LogoHero({
                   ease: [0.22, 1, 0.36, 1],
                   delay: isContentRevealed ? 0.36 : 0,
                 }}
-                className="pointer-events-auto lg:max-w-md lg:text-right lg:ml-auto"
+                className="pointer-events-auto lg:max-w-md text-center lg:text-right mx-auto lg:ml-auto mb-4 lg:mb-0"
               >
-                <p className="text-white text-sm sm:text-base md:text-[16px] leading-relaxed font-normal text-left lg:text-right">
+                <p className="text-white text-sm sm:text-base md:text-[16px] leading-relaxed font-normal text-center lg:text-right">
                   From modern websites and SaaS platforms to AI automation and brand identity, we design and build digital experiences that help businesses scale faster
                 </p>
               </motion.div>
 
-              {/* Bottom-Right: Action Button with Elastic Impulse Pop */}
+              {/* Action Button (Positioned right below description on mobile) */}
               <motion.div
                 initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
                 animate={
@@ -219,11 +219,11 @@ export default function LogoHero({
                   ease: [0.22, 1, 0.36, 1],
                   delay: isContentRevealed ? 0.44 : 0,
                 }}
-                className="pointer-events-auto flex items-center mt-8 lg:mt-auto"
+                className="pointer-events-auto flex items-center justify-center lg:justify-end w-full lg:w-auto"
               >
                 <a
                   href="#contact"
-                  className="group inline-flex items-center justify-between gap-4 sm:gap-6 bg-white text-black hover:bg-neutral-100 transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg shadow-white/5"
+                  className="group inline-flex items-center justify-between gap-4 sm:gap-6 bg-white text-black hover:bg-neutral-100 transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg shadow-white/5 mx-auto lg:mx-0"
                 >
                   <span className="font-sans font-medium tracking-tight text-neutral-900">
                     Start your project

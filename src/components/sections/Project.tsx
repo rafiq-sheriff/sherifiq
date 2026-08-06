@@ -132,7 +132,7 @@ export default function Project() {
         {/* View All Projects Button */}
         <div className="mt-12 lg:mt-16 flex justify-center">
           <a
-            href="#all-projects"
+            href="/project"
             className="group inline-flex items-center justify-between gap-4 sm:gap-6 bg-[#5b72ff] text-white hover:bg-[#4760ff] transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg shadow-blue-500/20"
           >
             <span className="font-sans font-medium tracking-tight text-white">

@@ -50,7 +50,7 @@ export type StaggeredMenuProps = {
 
 const defaultNavItems: MenuItem[] = [
   { label: 'Home', ariaLabel: 'Go to Home section', link: '#hero' },
-  { label: 'About', ariaLabel: 'Go to About section', link: '#about-bento' },
+  { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
   { label: 'Archive', ariaLabel: 'Go to Archive section', link: '#bento' },
   { label: 'Contact', ariaLabel: 'Go to Contact section', link: '#faq' },
 ];
