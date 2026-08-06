@@ -291,10 +291,10 @@ export default function ContactPage() {
               </div>
               <div className="w-full sm:w-auto flex sm:justify-end">
                 <a
-                  href="mailto:rafiqsheriffs@gmail.com"
+                  href="mailto:dilipangopal@gmail.com"
                   className="inline-flex items-center px-6 py-2.5 rounded-full border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition-all duration-300 font-sans text-sm sm:text-base font-medium active:scale-95 cursor-pointer"
                 >
-                  rafiqsheriffs@gmail.com
+                  dilipangopal@gmail.com
                 </a>
               </div>
             </div>
