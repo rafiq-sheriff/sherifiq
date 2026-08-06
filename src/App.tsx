@@ -17,6 +17,7 @@ import LogoPage from './pages/LogoPage';
 import AboutPage from './pages/AboutPage';
 import About2Page from './pages/About2Page';
 import ProjectPage from './pages/ProjectPage';
+import ContactPage from './pages/ContactPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,6 +54,10 @@ export default function App() {
     currentPath === '/projects/'
   ) {
     return <ProjectPage />;
+  }
+
+  if (currentPath === '/contact' || currentPath === '/contact/') {
+    return <ContactPage />;
   }
 
   useEffect(() => {
@@ -113,10 +118,8 @@ export default function App() {
         items={[
           { label: 'Home', ariaLabel: 'Go to Home section', link: '#hero' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
-          { label: 'Stats', ariaLabel: 'Go to Stats section', link: '#bento' },
-          { label: 'Projects', ariaLabel: 'Go to Projects page', link: '/project' },
-          { label: 'Logo', ariaLabel: 'Go to Brand Logo showcase page', link: '/logo' },
-          { label: 'Contact', ariaLabel: 'Go to Contact section', link: '#cta' },
+          { label: 'Project', ariaLabel: 'Go to Project page', link: '/project' },
+          { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[
           { label: 'Instagram', link: 'https://instagram.com' },

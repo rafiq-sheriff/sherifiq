@@ -307,8 +307,8 @@ export default function Logo3D({ tintColor = '#8b5cf6', interactive = true }: Lo
   return (
     <div
       ref={containerRef}
-      className="w-full h-full"
-      style={{ touchAction: 'none' }}
+      className="w-full h-full pointer-events-none lg:pointer-events-auto"
+      style={{ touchAction: 'auto' }}
     />
   );
 }

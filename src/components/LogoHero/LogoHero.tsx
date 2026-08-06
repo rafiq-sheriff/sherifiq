@@ -94,8 +94,7 @@ export default function LogoHero({
                 onLogoSettled?.();
               }
             }}
-            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center ${isInteractive ? 'pointer-events-auto cursor-pointer' : 'pointer-events-none select-none'
-              }`}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center pointer-events-none lg:pointer-events-auto select-none"
           >
             <motion.div
               style={{

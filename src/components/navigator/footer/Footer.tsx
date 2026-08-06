@@ -92,7 +92,7 @@ export default function Footer() {
               {/* Bottom Contact Us Button */}
               <div className="relative z-10">
                 <a
-                  href="#cta"
+                  href="/contact"
                   className="group/btn inline-flex items-center justify-between gap-4 sm:gap-6 border border-white/80 bg-black/30 hover:bg-black/50 backdrop-blur-md text-white transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg"
                 >
                   <span className="font-sans font-medium tracking-tight text-white">
@@ -168,27 +168,21 @@ export default function Footer() {
               <a href="/about" className="hover:text-white transition-colors">
                 About
               </a>
-              <a href="#bento" className="hover:text-white transition-colors">
-                Stats
-              </a>
               <a href="/project" className="hover:text-white transition-colors">
-                Projects
+                Project
               </a>
-              <a href="#how-we-work" className="hover:text-white transition-colors">
-                How We Work
-              </a>
-              <a href="#cta" className="hover:text-white transition-colors">
+              <a href="/contact" className="hover:text-white transition-colors">
                 Contact
               </a>
             </div>
 
             {/* Copyright Text */}
             <div>
-              <span>&copy; Copyrights SHERIFIQ</span>
+              <span>&copy; Copyrights Sherifiq</span>
             </div>
           </div>
 
-          {/* Giant Brand Typography: SHERIFIQ in Rosnoc font */}
+          {/* Giant Brand Typography: Sherifiq in Rosnoc font */}
           <div className="w-full text-center overflow-hidden py-2 sm:py-4 select-none">
             <motion.h1
               initial={{ opacity: 0, y: 40 }}
@@ -198,12 +192,12 @@ export default function Footer() {
               className="w-full text-center block"
             >
               <ShinyText
-                text="SHERIFIQ"
+                text="Sherifiq"
                 speed={3.5}
                 color="rgba(255, 255, 255, 0.65)"
                 shineColor="#ffffff"
                 spread={120}
-                className="font-rosnoc text-[12vw] sm:text-[13vw] leading-none tracking-[0.18em] uppercase text-center block w-full whitespace-nowrap pl-[0.18em]"
+                className="font-rosnoc text-[12vw] sm:text-[13vw] leading-none tracking-[0.18em] text-center block w-full whitespace-nowrap pl-[0.18em]"
               />
             </motion.h1>
           </div>

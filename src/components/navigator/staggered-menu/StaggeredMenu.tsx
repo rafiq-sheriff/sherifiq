@@ -568,7 +568,7 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                   : 'max-w-[200px] ml-1'
               }`}
             >
-              SHERIFIQ
+              Sherifiq
             </motion.span>
           </a>
 

@@ -53,12 +53,8 @@ export default function About2Page() {
         items={[
           { label: 'Home', ariaLabel: 'Go to Home page', link: '/' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
-          { label: 'About 2', ariaLabel: 'Current page: About 2', link: '/about2' },
-          { label: 'How We Work', ariaLabel: 'Go to How We Work section', link: '#how-we-work' },
-          { label: 'Stats', ariaLabel: 'Go to Stats section', link: '/#bento' },
-          { label: 'Projects', ariaLabel: 'Go to Projects page', link: '/project' },
-          { label: 'Logo', ariaLabel: 'Go to Brand Logo showcase page', link: '/logo' },
-          { label: 'Contact', ariaLabel: 'Go to Contact section', link: '/#cta' },
+          { label: 'Project', ariaLabel: 'Go to Project page', link: '/project' },
+          { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[
           { label: 'Instagram', link: 'https://instagram.com' },

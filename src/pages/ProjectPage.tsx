@@ -237,10 +237,8 @@ export default function ProjectPage() {
         items={[
           { label: 'Home', ariaLabel: 'Go to Home page', link: '/' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
-          { label: 'Projects', ariaLabel: 'Current page: Projects', link: '/project' },
-          { label: 'Stats', ariaLabel: 'Go to Stats section', link: '/#bento' },
-          { label: 'Logo', ariaLabel: 'Go to Brand Logo showcase page', link: '/logo' },
-          { label: 'Contact', ariaLabel: 'Go to Contact section', link: '/#cta' },
+          { label: 'Project', ariaLabel: 'Current page: Project', link: '/project' },
+          { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[
           { label: 'Instagram', link: 'https://instagram.com' },
