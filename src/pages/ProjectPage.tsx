@@ -231,7 +231,7 @@ export default function ProjectPage() {
         position="right"
         colors={['#05030a', '#181538', '#28106f', '#5B72FF']}
         accentColor="#8b5cf6"
-        wordmarkColor="#5b72ff"
+        wordmarkColor="#ffffff"
         displayDownloadCv={false}
         onMenuOpen={() => lenisRef.current?.stop()}
         onMenuClose={() => lenisRef.current?.start()}
@@ -248,24 +248,37 @@ export default function ProjectPage() {
       />
 
       {/* ── Page Hero Title Section ── */}
-      <section className="relative z-10 pt-20 sm:pt-28 pb-10 sm:pb-14 px-6 sm:px-12 max-w-7xl mx-auto">
-        <div className="max-w-4xl">
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="font-sora font-semibold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#181538] mb-3"
-          >
-            Projects
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="font-sans font-light text-2xl sm:text-3xl lg:text-4xl text-neutral-400 leading-[1.2] max-w-xl whitespace-pre-line"
-          >
-            Digital experiences{'\n'}built for ambitious brands
-          </motion.p>
+      <section className="relative z-10 min-h-[65vh] sm:min-h-[75vh] w-full flex flex-col justify-end overflow-hidden mb-8 sm:mb-12">
+        {/* Background Billboard / Banner Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/assets/contact/MDU069_Billboard_Mockup.webp"
+            alt="Project Hero Banner Background"
+            className="w-full h-full object-cover object-[center_35%]"
+          />
+          {/* Subtle gradient overlay to keep signboard vibrant while preserving text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F5F5F5] via-[#F5F5F5]/30 to-black/20" />
+        </div>
+
+        <div className="relative z-10 pt-28 sm:pt-36 pb-12 sm:pb-16 px-6 sm:px-12 max-w-7xl mx-auto w-full">
+          <div className="max-w-4xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="font-sora font-semibold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#181538] mb-3 drop-shadow-md"
+            >
+              Projects
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="font-sans font-medium text-2xl sm:text-3xl lg:text-4xl text-[#181538]/80 leading-[1.2] max-w-xl whitespace-pre-line drop-shadow-sm"
+            >
+              Digital experiences{'\n'}built for ambitious brands
+            </motion.p>
+          </div>
         </div>
       </section>
 

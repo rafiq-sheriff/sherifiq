@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BrandLogo from '../ui/BrandLogo';
 
@@ -11,6 +11,13 @@ interface FormData {
   service: string;
   customService: string;
   message: string;
+}
+
+export interface CountryCodeItem {
+  code: string;
+  country: string;
+  flag: string;
+  name: string;
 }
 
 const SERVICES = [
@@ -25,7 +32,92 @@ const SERVICES = [
   'Other',
 ];
 
+const COUNTRY_CODES: CountryCodeItem[] = [
+  { code: '+91', country: 'IN', flag: '🇮🇳', name: 'India' },
+  { code: '+1', country: 'US', flag: '🇺🇸', name: 'United States' },
+  { code: '+44', country: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
+  { code: '+971', country: 'AE', flag: '🇦🇪', name: 'United Arab Emirates' },
+  { code: '+65', country: 'SG', flag: '🇸🇬', name: 'Singapore' },
+  { code: '+61', country: 'AU', flag: '🇦🇺', name: 'Australia' },
+  { code: '+1', country: 'CA', flag: '🇨🇦', name: 'Canada' },
+  { code: '+49', country: 'DE', flag: '🇩🇪', name: 'Germany' },
+  { code: '+33', country: 'FR', flag: '🇫🇷', name: 'France' },
+  { code: '+81', country: 'JP', flag: '🇯🇵', name: 'Japan' },
+  { code: '+86', country: 'CN', flag: '🇨🇳', name: 'China' },
+  { code: '+55', country: 'BR', flag: '🇧🇷', name: 'Brazil' },
+  { code: '+52', country: 'MX', flag: '🇲🇽', name: 'Mexico' },
+  { code: '+39', country: 'IT', flag: '🇮🇹', name: 'Italy' },
+  { code: '+34', country: 'ES', flag: '🇪🇸', name: 'Spain' },
+  { code: '+31', country: 'NL', flag: '🇳🇱', name: 'Netherlands' },
+  { code: '+41', country: 'CH', flag: '🇨🇭', name: 'Switzerland' },
+  { code: '+966', country: 'SA', flag: '🇸🇦', name: 'Saudi Arabia' },
+  { code: '+974', country: 'QA', flag: '🇶🇦', name: 'Qatar' },
+  { code: '+968', country: 'OM', flag: '🇴🇲', name: 'Oman' },
+  { code: '+965', country: 'KW', flag: '🇰🇼', name: 'Kuwait' },
+  { code: '+973', country: 'BH', flag: '🇧🇭', name: 'Bahrain' },
+  { code: '+60', country: 'MY', flag: '🇲🇾', name: 'Malaysia' },
+  { code: '+62', country: 'ID', flag: '🇮🇩', name: 'Indonesia' },
+  { code: '+92', country: 'PK', flag: '🇵🇰', name: 'Pakistan' },
+  { code: '+880', country: 'BD', flag: '🇧🇩', name: 'Bangladesh' },
+  { code: '+94', country: 'LK', flag: '🇱🇰', name: 'Sri Lanka' },
+  { code: '+977', country: 'NP', flag: '🇳🇵', name: 'Nepal' },
+  { code: '+27', country: 'ZA', flag: '🇿🇦', name: 'South Africa' },
+  { code: '+234', country: 'NG', flag: '🇳🇬', name: 'Nigeria' },
+  { code: '+20', country: 'EG', flag: '🇪🇬', name: 'Egypt' },
+  { code: '+54', country: 'AR', flag: '🇦🇷', name: 'Argentina' },
+  { code: '+57', country: 'CO', flag: '🇨🇴', name: 'Colombia' },
+  { code: '+64', country: 'NZ', flag: '🇳🇿', name: 'New Zealand' },
+  { code: '+82', country: 'KR', flag: '🇰🇷', name: 'South Korea' },
+  { code: '+46', country: 'SE', flag: '🇸🇪', name: 'Sweden' },
+  { code: '+47', country: 'NO', flag: '🇳🇴', name: 'Norway' },
+  { code: '+45', country: 'DK', flag: '🇩🇰', name: 'Denmark' },
+  { code: '+358', country: 'FI', flag: '🇫🇮', name: 'Finland' },
+  { code: '+353', country: 'IE', flag: '🇮🇪', name: 'Ireland' },
+  { code: '+43', country: 'AT', flag: '🇦🇹', name: 'Austria' },
+  { code: '+32', country: 'BE', flag: '🇧🇪', name: 'Belgium' },
+  { code: '+351', country: 'PT', flag: '🇵🇹', name: 'Portugal' },
+  { code: '+30', country: 'GR', flag: '🇬🇷', name: 'Greece' },
+  { code: '+48', country: 'PL', flag: '🇵🇱', name: 'Poland' },
+  { code: '+90', country: 'TR', flag: '🇹🇷', name: 'Turkey' },
+  { code: '+7', country: 'RU', flag: '🇷🇺', name: 'Russia' },
+  { code: '+63', country: 'PH', flag: '🇵🇭', name: 'Philippines' },
+  { code: '+84', country: 'VN', flag: '🇻🇳', name: 'Vietnam' },
+  { code: '+66', country: 'TH', flag: '🇹🇭', name: 'Thailand' },
+];
+
 export default function ContactFormSection() {
+  const [selectedCountry, setSelectedCountry] = useState<CountryCodeItem>(COUNTRY_CODES[0]);
+  const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
+  const [countrySearchQuery, setCountrySearchQuery] = useState('');
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsCountryDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Auto focus search input when dropdown opens
+  useEffect(() => {
+    if (isCountryDropdownOpen) {
+      setTimeout(() => searchInputRef.current?.focus(), 50);
+    }
+  }, [isCountryDropdownOpen]);
+
+  const filteredCountries = COUNTRY_CODES.filter((item) => {
+    const q = countrySearchQuery.toLowerCase().trim();
+    return (
+      item.name.toLowerCase().includes(q) ||
+      item.code.includes(q) ||
+      item.country.toLowerCase().includes(q)
+    );
+  });
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -37,6 +129,7 @@ export default function ContactFormSection() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Partial<FormData>>({});
 
   const validate = (): boolean => {
@@ -55,15 +148,53 @@ export default function ContactFormSection() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
     if (!validate()) return;
 
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      const endpoint =
+        import.meta.env.VITE_GOOGLE_SCRIPT_URL ||
+        'https://script.google.com/macros/s/AKfycbwXPvTa3A0UpYlynTWfAXqqXEnFfz-vhYilkMGHnauzoRJIokbCqGa0P1HqUaGCfyu9/exec';
+
+      const finalService =
+        formData.service === 'Other' && formData.customService.trim()
+          ? formData.customService.trim()
+          : formData.service;
+
+      const formattedPhone = formData.phone.trim()
+        ? `'${selectedCountry.code} ${formData.phone.trim()}`
+        : '';
+
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formattedPhone,
+        service: finalService,
+        message: formData.message.trim(),
+      };
+
+      await fetch(endpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(payload),
+      });
+
       setIsSubmitting(false);
       setIsSubmitted(true);
-    }, 1000);
+    } catch (err: any) {
+      console.error('Form submission error:', err);
+      setIsSubmitting(false);
+      setSubmitError(
+        'Failed to submit form. Please try again or email directly at rafiqsheriffs@gmail.com'
+      );
+    }
   };
 
   const handleReset = () => {
@@ -76,6 +207,7 @@ export default function ContactFormSection() {
       message: '',
     });
     setErrors({});
+    setSubmitError(null);
     setIsSubmitted(false);
   };
 
@@ -245,18 +377,122 @@ export default function ContactFormSection() {
                       </div>
                     </div>
 
-                    {/* Phone Number (Optional) */}
+                    {/* Phone Number (Optional) with Searchable Country Code Dropdown */}
                     <div>
                       <label className="block font-sora font-semibold text-sm text-[#181538] mb-2.5">
                         Phone Number <span className="text-neutral-400 font-normal">(Optional)</span>
                       </label>
-                      <input
-                        type="tel"
-                        placeholder="+1 (555) 000-0000"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-5 py-4 rounded-2xl bg-[#F8F9FA] border border-neutral-200 focus:border-[#5b72ff] focus:bg-white focus:ring-4 focus:ring-[#5b72ff]/10 text-[#181538] placeholder-neutral-400 font-sans text-base focus:outline-none transition-all duration-200"
-                      />
+                      <div className="relative flex items-stretch rounded-2xl bg-[#F8F9FA] border border-neutral-200 focus-within:border-[#5b72ff] focus-within:bg-white focus-within:ring-4 focus-within:ring-[#5b72ff]/10 transition-all duration-200">
+                        {/* Custom Searchable Country Code Button & Dropdown */}
+                        <div ref={dropdownRef} className="relative shrink-0 flex items-center">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsCountryDropdownOpen(!isCountryDropdownOpen);
+                              setCountrySearchQuery('');
+                            }}
+                            className="h-full px-4 border-r border-neutral-200/90 flex items-center gap-2 bg-neutral-100/60 hover:bg-neutral-200/60 transition-colors text-[#181538] font-sans font-medium text-base rounded-l-2xl cursor-pointer select-none"
+                          >
+                            <span className="text-lg leading-none">{selectedCountry.flag}</span>
+                            <span>{selectedCountry.code}</span>
+                            <svg
+                              className={`w-3.5 h-3.5 text-neutral-500 transition-transform duration-200 ${
+                                isCountryDropdownOpen ? 'rotate-180' : ''
+                              }`}
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+
+                          {/* Searchable Dropdown Popover */}
+                          <AnimatePresence>
+                            {isCountryDropdownOpen && (
+                              <motion.div
+                                initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute left-0 top-full mt-2 w-72 sm:w-80 bg-white rounded-2xl border border-neutral-200 shadow-xl z-50 overflow-hidden"
+                              >
+                                {/* Search Input Container */}
+                                <div className="p-3 border-b border-neutral-100 bg-neutral-50/70">
+                                  <div className="relative flex items-center">
+                                    <svg
+                                      className="w-4 h-4 text-neutral-400 absolute left-3.5 pointer-events-none"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                      />
+                                    </svg>
+                                    <input
+                                      ref={searchInputRef}
+                                      type="text"
+                                      placeholder="Search country or code..."
+                                      value={countrySearchQuery}
+                                      onChange={(e) => setCountrySearchQuery(e.target.value)}
+                                      className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-neutral-200 text-sm text-[#181538] placeholder-neutral-400 font-sans focus:outline-none focus:border-[#5b72ff]"
+                                    />
+                                  </div>
+                                </div>
+
+                                {/* Filtered Country Options List */}
+                                <div className="max-h-56 overflow-y-auto divide-y divide-neutral-100 p-1">
+                                  {filteredCountries.length > 0 ? (
+                                    filteredCountries.map((c) => {
+                                      const isSelected = selectedCountry.code === c.code && selectedCountry.country === c.country;
+                                      return (
+                                        <button
+                                          key={`${c.country}-${c.code}`}
+                                          type="button"
+                                          onClick={() => {
+                                            setSelectedCountry(c);
+                                            setIsCountryDropdownOpen(false);
+                                          }}
+                                          className={`w-full px-3.5 py-2.5 rounded-xl flex items-center justify-between text-left text-sm font-sans transition-colors cursor-pointer ${
+                                            isSelected
+                                              ? 'bg-[#5b72ff]/10 text-[#5b72ff] font-semibold'
+                                              : 'hover:bg-neutral-100 text-neutral-800'
+                                          }`}
+                                        >
+                                          <div className="flex items-center gap-2.5 truncate">
+                                            <span className="text-base">{c.flag}</span>
+                                            <span className="truncate">{c.name}</span>
+                                          </div>
+                                          <span className="text-xs font-mono font-medium text-neutral-500 shrink-0 ml-2">
+                                            {c.code}
+                                          </span>
+                                        </button>
+                                      );
+                                    })
+                                  ) : (
+                                    <div className="px-4 py-6 text-center text-xs text-neutral-400">
+                                      No country found
+                                    </div>
+                                  )}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+
+                        {/* Phone Input */}
+                        <input
+                          type="tel"
+                          placeholder="98765 43210"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          className="w-full px-4 sm:px-5 py-4 bg-transparent text-[#181538] placeholder-neutral-400 font-sans text-base focus:outline-none"
+                        />
+                      </div>
                     </div>
 
                     {/* Service Selection Chips */}
@@ -339,22 +575,79 @@ export default function ContactFormSection() {
                       )}
                     </div>
 
+                    {/* Submit Error Notification */}
+                    {submitError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 rounded-2xl bg-red-50 border border-red-200/90 text-red-700 text-sm font-medium flex items-center justify-between gap-3 shadow-sm"
+                      >
+                        <div className="flex items-start sm:items-center gap-3">
+                          <svg className="w-5 h-5 text-red-500 shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span className="leading-snug">{submitError}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setSubmitError(null)}
+                          className="text-red-400 hover:text-red-700 font-bold text-xl leading-none transition-colors p-1"
+                          aria-label="Dismiss error"
+                        >
+                          &times;
+                        </button>
+                      </motion.div>
+                    )}
+
                     {/* Project Section Style Action Button */}
-                    <div className="pt-2">
+                    <div className="pt-2 flex justify-center sm:justify-start w-full">
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group inline-flex items-center justify-between gap-4 sm:gap-6 bg-[#5b72ff] text-white hover:bg-[#4760ff] transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg shadow-blue-500/20 disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="group inline-flex items-center justify-between gap-4 sm:gap-6 bg-[#5b72ff] text-white hover:bg-[#4760ff] transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg shadow-blue-500/20 disabled:opacity-90 disabled:cursor-wait"
                       >
-                        <span className="font-sans font-medium tracking-tight text-white">
-                          {isSubmitting ? 'Sending Message...' : 'Send Message'}
-                        </span>
-                        <span className="w-10 h-10 sm:w-11 sm:h-11 bg-white rounded-full flex items-center justify-center text-[#5b72ff] shrink-0 group-hover:bg-neutral-100 transition-colors duration-200 shadow-sm overflow-hidden">
+                        <span className="font-sans font-medium tracking-tight text-white flex items-center gap-2">
                           {isSubmitting ? (
-                            <svg className="w-5 h-5 animate-spin text-[#5b72ff]" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                            </svg>
+                            <span className="inline-flex items-center gap-1.5">
+                              <span>Sending Message</span>
+                              <span className="inline-flex gap-1 items-center">
+                                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" />
+                              </span>
+                            </span>
+                          ) : (
+                            'Send Message'
+                          )}
+                        </span>
+                        <span className="relative w-10 h-10 sm:w-11 sm:h-11 bg-white rounded-full flex items-center justify-center text-[#5b72ff] shrink-0 group-hover:bg-neutral-100 transition-colors duration-200 shadow-sm overflow-hidden">
+                          {isSubmitting ? (
+                            <>
+                              {/* Spinning gradient ring accent */}
+                              <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                                className="absolute inset-0.5 rounded-full border-2 border-transparent border-t-[#5b72ff] border-r-[#8b5cf6]"
+                              />
+                              {/* BrandLogo continuous rotation and pulsing scale animation */}
+                              <motion.div
+                                animate={{
+                                  rotate: 360,
+                                  scale: [0.85, 1.12, 0.85],
+                                }}
+                                transition={{
+                                  rotate: { repeat: Infinity, duration: 1.4, ease: 'linear' },
+                                  scale: { repeat: Infinity, duration: 1.2, ease: 'easeInOut' },
+                                }}
+                                className="relative z-10 flex items-center justify-center"
+                              >
+                                <BrandLogo
+                                  className="h-4 sm:h-5 w-auto text-[#5b72ff]"
+                                  fill="#5b72ff"
+                                  useGradient={false}
+                                />
+                              </motion.div>
+                            </>
                           ) : (
                             <BrandLogo
                               className="h-4 sm:h-5 w-auto text-[#5b72ff] transition-transform duration-500 ease-out group-hover:rotate-45"

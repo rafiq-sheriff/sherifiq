@@ -70,7 +70,7 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7 }}
-              className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/10 flex flex-col justify-between p-6 sm:p-10 bg-neutral-900/80 transform-gpu"
+              className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/10 flex flex-col justify-between items-center sm:items-start text-center sm:text-left p-6 sm:p-10 bg-neutral-900/80 transform-gpu"
             >
               {/* Parallax Background Image */}
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[28px] sm:rounded-[36px]">
@@ -90,7 +90,7 @@ export default function Footer() {
               </div>
 
               {/* Bottom Contact Us Button */}
-              <div className="relative z-10">
+              <div className="relative z-10 w-full flex justify-center sm:justify-start">
                 <a
                   href="/contact"
                   className="group/btn inline-flex items-center justify-between gap-4 sm:gap-6 border border-white/80 bg-black/30 hover:bg-black/50 backdrop-blur-md text-white transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg"
@@ -116,7 +116,7 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/10 flex flex-col justify-between p-6 sm:p-10 bg-neutral-950/80 transform-gpu"
+              className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/10 flex flex-col justify-between items-center sm:items-start text-center sm:text-left p-6 sm:p-10 bg-neutral-950/80 transform-gpu"
             >
               {/* Parallax Background Image */}
               <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[28px] sm:rounded-[36px]">
@@ -136,7 +136,7 @@ export default function Footer() {
               </div>
 
               {/* Bottom Go to Insta Button */}
-              <div className="relative z-10">
+              <div className="relative z-10 w-full flex justify-center sm:justify-start">
                 <a
                   href="https://instagram.com"
                   target="_blank"
@@ -159,9 +159,9 @@ export default function Footer() {
           </div>
 
           {/* Navigation & Copyright Bar */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-4 pb-4 text-xs sm:text-sm font-light text-neutral-400">
+          <div className="flex flex-col md:flex-row items-center md:items-center justify-between gap-4 pt-4 pb-4 text-xs sm:text-sm font-light text-neutral-400 text-center md:text-left">
             {/* Nav Links */}
-            <div className="flex items-center flex-wrap gap-x-6 gap-y-2">
+            <div className="flex items-center justify-center flex-wrap gap-x-6 gap-y-2">
               <a href="/" className="hover:text-white transition-colors">
                 Home
               </a>
@@ -177,7 +177,7 @@ export default function Footer() {
             </div>
 
             {/* Copyright Text */}
-            <div>
+            <div className="text-center md:text-right">
               <span>&copy; Copyrights Sherifiq</span>
             </div>
           </div>
@@ -203,9 +203,9 @@ export default function Footer() {
           </div>
 
           {/* Bottom Bar: Left Socials (LinkedIn, Instagram) & Right Legal (Privacy Policy, Terms & Conditions) */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 text-xs sm:text-sm font-light text-neutral-400">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 text-xs sm:text-sm font-light text-neutral-400 text-center">
             {/* Left side: Social Links */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center justify-center gap-6">
               <a
                 href="https://linkedin.com"
                 target="_blank"
@@ -225,7 +225,7 @@ export default function Footer() {
             </div>
 
             {/* Right side: Legal Links */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center justify-center gap-6">
               <a href="#" className="hover:text-white transition-colors">
                 Privacy Policy
               </a>

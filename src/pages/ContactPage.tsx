@@ -49,7 +49,7 @@ export default function ContactPage() {
         position="right"
         colors={['#05030a', '#181538', '#28106f', '#5B72FF']}
         accentColor="#8b5cf6"
-        wordmarkColor="#5b72ff"
+        wordmarkColor="#ffffff"
         displayDownloadCv={false}
         onMenuOpen={() => lenisRef.current?.stop()}
         onMenuClose={() => lenisRef.current?.start()}
@@ -66,79 +66,92 @@ export default function ContactPage() {
       />
 
       {/* ── Screen-Height Hero Section (Title & Specs Aligned Left Bottom) ── */}
-      <section className="relative z-10 min-h-[85vh] sm:min-h-screen w-full flex flex-col justify-end pt-24 pb-12 sm:pb-16 px-6 sm:px-12 lg:px-16 max-w-7xl mx-auto">
-        <div className="max-w-4xl">
-          {/* Main Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="font-sora font-semibold text-5xl sm:text-7xl lg:text-7xl tracking-tight text-[#181538] mb-10 sm:mb-14"
-          >
-            Let's get in
-            <br />
-            touch
-          </motion.h1>
+      <section className="relative z-10 min-h-[85vh] sm:min-h-screen w-full flex flex-col justify-end overflow-hidden">
+        {/* Background Billboard Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/assets/contact/Billboard_Mockup.webp"
+            alt="Billboard Mockup Background"
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Legibility and smooth section transition overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F5F5F5] via-[#F5F5F5]/30 to-black/30 backdrop-blur-[1px]" />
+        </div>
 
-          {/* 3 Content-Based Width Spec Containers */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="flex flex-col sm:flex-row items-start gap-10 sm:gap-16 lg:gap-20 text-neutral-800"
-          >
-            {/* Column 1: Located */}
-            <div className="w-auto shrink-0">
-              <h3 className="font-sora font-semibold text-lg sm:text-xl text-[#181538] mb-2">
-                Located
-              </h3>
-              <p className="font-sans text-base sm:text-lg text-neutral-600 font-normal leading-relaxed">
-                Chennai
-              </p>
-              <p className="font-sans text-base sm:text-lg text-neutral-600 font-normal leading-relaxed">
-                India
-              </p>
-            </div>
+        <div className="relative z-10 pt-24 pb-12 sm:pb-16 px-6 sm:px-12 lg:px-16 max-w-7xl mx-auto w-full">
+          <div className="max-w-4xl">
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="font-sora font-semibold text-5xl sm:text-7xl lg:text-7xl tracking-tight text-[#181538] mb-10 sm:mb-14"
+            >
+              Let's get in
+              <br />
+              touch
+            </motion.h1>
 
-            {/* Column 2: Contact */}
-            <div className="w-auto shrink-0">
-              <h3 className="font-sora font-semibold text-lg sm:text-xl text-[#181538] mb-2">
-                Contact
-              </h3>
-              <p className="font-sans text-base sm:text-lg text-neutral-600 font-normal leading-relaxed">
-                Rafiq Sheriff S
-              </p>
-              <a
-                href="mailto:rafiqsheriffs@gmail.com"
-                className="font-sans text-base sm:text-lg text-neutral-600 hover:text-[#5b72ff] font-normal leading-relaxed transition-colors block whitespace-nowrap"
-              >
-                rafiqsheriffs@gmail.com
-              </a>
-            </div>
+            {/* 3 Content-Based Width Spec Containers */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="flex flex-col sm:flex-row items-start gap-10 sm:gap-16 lg:gap-20 text-neutral-800"
+            >
+              {/* Column 1: Located */}
+              <div className="w-auto shrink-0">
+                <h3 className="font-sora font-semibold text-lg sm:text-xl text-[#181538] mb-2">
+                  Located
+                </h3>
+                <p className="font-sans text-base sm:text-lg text-neutral-600 font-normal leading-relaxed">
+                  Chennai
+                </p>
+                <p className="font-sans text-base sm:text-lg text-neutral-600 font-normal leading-relaxed">
+                  India
+                </p>
+              </div>
 
-            {/* Column 3: Follow */}
-            <div className="w-auto shrink-0">
-              <h3 className="font-sora font-semibold text-lg sm:text-xl text-[#181538] mb-2">
-                Follow
-              </h3>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-sans text-base sm:text-lg text-neutral-600 hover:text-[#5b72ff] font-normal leading-relaxed transition-colors block whitespace-nowrap"
-              >
-                Instagram
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-sans text-base sm:text-lg text-neutral-600 hover:text-[#5b72ff] font-normal leading-relaxed transition-colors block whitespace-nowrap"
-              >
-                Linkedin
-              </a>
-            </div>
-          </motion.div>
+              {/* Column 2: Contact */}
+              <div className="w-auto shrink-0">
+                <h3 className="font-sora font-semibold text-lg sm:text-xl text-[#181538] mb-2">
+                  Contact
+                </h3>
+                <p className="font-sans text-base sm:text-lg text-neutral-600 font-normal leading-relaxed">
+                  Rafiq Sheriff S
+                </p>
+                <a
+                  href="mailto:rafiqsheriffs@gmail.com"
+                  className="font-sans text-base sm:text-lg text-neutral-600 hover:text-[#5b72ff] font-normal leading-relaxed transition-colors block whitespace-nowrap"
+                >
+                  rafiqsheriffs@gmail.com
+                </a>
+              </div>
+
+              {/* Column 3: Follow */}
+              <div className="w-auto shrink-0">
+                <h3 className="font-sora font-semibold text-lg sm:text-xl text-[#181538] mb-2">
+                  Follow
+                </h3>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-base sm:text-lg text-neutral-600 hover:text-[#5b72ff] font-normal leading-relaxed transition-colors block whitespace-nowrap"
+                >
+                  Instagram
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-base sm:text-lg text-neutral-600 hover:text-[#5b72ff] font-normal leading-relaxed transition-colors block whitespace-nowrap"
+                >
+                  Linkedin
+                </a>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

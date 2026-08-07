@@ -5,6 +5,7 @@ import BrandLogo from '../components/ui/BrandLogo';
 export default function LogoPage() {
   const [copied, setCopied] = useState(false);
   const [textCase, setTextCase] = useState<'title' | 'upper'>('title');
+  const [layout, setLayout] = useState<'row' | 'col'>('row');
 
   const handleCopyColor = () => {
     navigator.clipboard.writeText('#5b72ff');
@@ -41,6 +42,12 @@ export default function LogoPage() {
             Font Case: {textCase === 'title' ? 'Title Case (Sherifiq)' : 'UPPERCASE (SHERIFIQ)'}
           </button>
           <button
+            onClick={() => setLayout(layout === 'row' ? 'col' : 'row')}
+            className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer"
+          >
+            Layout: {layout === 'row' ? 'Row' : 'Column'}
+          </button>
+          <button
             onClick={handleCopyColor}
             className="px-4 py-2 rounded-full bg-white text-[#5b72ff] hover:bg-neutral-100 text-xs sm:text-sm font-semibold transition-all duration-300 active:scale-95 cursor-pointer shadow-lg"
           >
@@ -52,26 +59,35 @@ export default function LogoPage() {
       {/* Main Center Logo Presentation (Matches Image) */}
       <main className="relative z-10 flex-1 flex items-center justify-center w-full max-w-6xl mx-auto px-4">
         <motion.div
+          layout
           initial={{ opacity: 0, scale: 0.92, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 md:gap-14"
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className={`flex items-center justify-center ${
+            layout === 'row'
+              ? 'flex-row gap-6 sm:gap-10 md:gap-14'
+              : 'flex-col gap-4 sm:gap-6 md:gap-8'
+          }`}
         >
           {/* White Brand Logo Icon */}
-          <div className="shrink-0 flex items-center justify-center">
+          <motion.div layout className="shrink-0 flex items-center justify-center">
             <BrandLogo
-              className="w-24 h-36 sm:w-32 sm:h-48 md:w-44 md:h-64 lg:w-52 lg:h-76 text-white"
+              className={`text-white transition-all duration-300 ${
+                layout === 'row'
+                  ? 'w-24 h-36 sm:w-32 sm:h-48 md:w-44 md:h-64 lg:w-52 lg:h-76'
+                  : 'w-16 h-24 sm:w-24 sm:h-36 md:w-32 md:h-48 lg:w-36 lg:h-54'
+              }`}
               fill="#ffffff"
               useGradient={false}
             />
-          </div>
+          </motion.div>
 
           {/* White Sherifiq Typography in Rosnoc Font */}
-          <div className="flex items-center">
+          <motion.div layout className="flex items-center text-center">
             <h1 className="font-rosnoc text-6xl sm:text-7xl md:text-8xl lg:text-[130px] leading-none text-white tracking-[0.04em] select-none">
               {textCase === 'title' ? 'Sherifiq' : 'SHERIFIQ'}
             </h1>
-          </div>
+          </motion.div>
         </motion.div>
       </main>
 
