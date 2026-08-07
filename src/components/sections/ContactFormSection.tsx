@@ -445,7 +445,12 @@ export default function ContactFormSection() {
                                 </div>
 
                                 {/* Filtered Country Options List */}
-                                <div className="max-h-56 overflow-y-auto divide-y divide-neutral-100 p-1">
+                                <div
+                                  data-lenis-prevent
+                                  onWheel={(e) => e.stopPropagation()}
+                                  onTouchMove={(e) => e.stopPropagation()}
+                                  className="max-h-56 overflow-y-auto overscroll-contain touch-pan-y divide-y divide-neutral-100 p-1"
+                                >
                                   {filteredCountries.length > 0 ? (
                                     filteredCountries.map((c) => {
                                       const isSelected = selectedCountry.code === c.code && selectedCountry.country === c.country;

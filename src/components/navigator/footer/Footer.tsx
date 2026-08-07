@@ -25,7 +25,7 @@ export default function Footer() {
     offset: ['start end', 'end start'],
   });
 
-  // Smooth Y translation as user scrolls up & down past the card
+  // Smooth Y parallax translation as user scrolls up & down past the cards
   const image1Y = useTransform(card1Scroll, [0, 1], ['-12%', '12%']);
   const image2Y = useTransform(card2Scroll, [0, 1], ['-12%', '12%']);
 
@@ -64,12 +64,8 @@ export default function Footer() {
           {/* Top Dual Cards Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-16 sm:mb-20">
             {/* Card 1: Collaborations & Billboard */}
-            <motion.div
+            <div
               ref={card1Ref}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7 }}
               className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/10 flex flex-col justify-between items-center sm:items-start text-center sm:text-left p-6 sm:p-10 bg-neutral-900/80 transform-gpu"
             >
               {/* Parallax Background Image */}
@@ -107,15 +103,11 @@ export default function Footer() {
                   </span>
                 </a>
               </div>
-            </motion.div>
+            </div>
 
             {/* Card 2: Instagram News & Social */}
-            <motion.div
+            <div
               ref={card2Ref}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
               className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/10 flex flex-col justify-between items-center sm:items-start text-center sm:text-left p-6 sm:p-10 bg-neutral-950/80 transform-gpu"
             >
               {/* Parallax Background Image */}
@@ -155,7 +147,7 @@ export default function Footer() {
                   </span>
                 </a>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Navigation & Copyright Bar */}

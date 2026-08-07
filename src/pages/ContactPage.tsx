@@ -70,8 +70,8 @@ export default function ContactPage() {
         {/* Background Billboard Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/assets/contact/Billboard_Mockup.webp"
-            alt="Billboard Mockup Background"
+            src="/assets/contact/contact.webp"
+            alt="Contact Hero Background"
             className="w-full h-full object-cover object-center"
           />
           {/* Legibility and smooth section transition overlay */}

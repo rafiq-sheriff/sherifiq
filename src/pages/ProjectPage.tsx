@@ -252,8 +252,8 @@ export default function ProjectPage() {
         {/* Background Billboard / Banner Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/assets/contact/MDU069_Billboard_Mockup.webp"
-            alt="Project Hero Banner Background"
+            src="/assets/projects/project.webp"
+            alt="Project Hero Background"
             className="w-full h-full object-cover object-[center_35%]"
           />
           {/* Subtle gradient overlay to keep signboard vibrant while preserving text readability */}
