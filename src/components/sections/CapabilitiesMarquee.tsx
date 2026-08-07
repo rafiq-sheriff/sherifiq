@@ -29,7 +29,7 @@ export default function CapabilitiesMarquee() {
   const row2Text = row2Items.map((item) => `${item} ✦ `).join('');
 
   return (
-    <div className="relative w-full bg-white py-6 sm:py-8 overflow-hidden select-none flex flex-col gap-4 sm:gap-5">
+    <div className="relative w-full bg-white py-6 sm:py-8 overflow-hidden flex flex-col gap-4 sm:gap-5">
       {/* Edge gradient blur overlays */}
       <div className="absolute top-0 bottom-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
       <div className="absolute top-0 bottom-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />

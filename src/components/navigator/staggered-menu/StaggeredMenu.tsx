@@ -37,6 +37,7 @@ export type StaggeredMenuProps = {
   menuButtonColor?: string;
   openMenuButtonColor?: string;
   accentColor?: string;
+  wordmarkColor?: string;
   changeMenuColorOnOpen?: boolean;
   isFixed?: boolean;
   closeOnClickAway?: boolean;
@@ -72,6 +73,7 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   menuButtonColor = '#181538',
   openMenuButtonColor = '#181538',
   accentColor = '#8b5cf6',
+  wordmarkColor = 'white',
   changeMenuColorOnOpen = true,
   isFixed = false,
   closeOnClickAway = true,
@@ -562,7 +564,8 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                   : { letterSpacing: '0.35em', opacity: 0 }
               }
               transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-              className={`font-rosnoc text-2xl md:text-3xl text-white transition-all duration-500 ease-in-out ${
+              style={{ color: wordmarkColor }}
+              className={`font-rosnoc text-2xl md:text-3xl transition-all duration-500 ease-in-out ${
                 isScrolled
                   ? 'opacity-0 max-w-0 ml-0 pointer-events-none overflow-hidden'
                   : 'max-w-[200px] ml-1'

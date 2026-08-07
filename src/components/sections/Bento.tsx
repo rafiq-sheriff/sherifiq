@@ -57,7 +57,7 @@ function AnimatedCounter({ value, duration = 2 }: { value: number; duration?: nu
    ────────────────────────────────────────────── */
 export default function Bento() {
   return (
-    <section id="bento" className="relative w-full py-16 lg:py-24 px-5 sm:px-10 lg:px-16 bg-white text-[#181538] select-none">
+    <section id="bento" className="relative w-full py-16 lg:py-24 px-5 sm:px-10 lg:px-16 bg-white text-[#181538]">
       <div className="w-full max-w-[1080px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
           {/* LEFT CARD — Websites Built */}

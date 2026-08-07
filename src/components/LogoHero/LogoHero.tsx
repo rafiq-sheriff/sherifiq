@@ -50,7 +50,7 @@ export default function LogoHero({
   const logoY = useTransform(scrollYProgress, [0, 0.85], [0, 650]);
 
   return (
-    <div id="hero" ref={containerRef} className="relative w-full bg-white select-none">
+    <div id="hero" ref={containerRef} className="relative w-full bg-white">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center p-0 overflow-hidden bg-white">
         <motion.section
           style={{

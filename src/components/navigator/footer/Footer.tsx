@@ -42,7 +42,7 @@ export default function Footer() {
   );
 
   return (
-    <div ref={containerRef} className="relative w-full bg-white select-none overflow-hidden">
+    <div ref={containerRef} className="relative w-full bg-white overflow-hidden">
       <motion.footer
         id="footer"
         style={{
@@ -183,7 +183,7 @@ export default function Footer() {
           </div>
 
           {/* Giant Brand Typography: Sherifiq in Rosnoc font */}
-          <div className="w-full text-center overflow-hidden py-2 sm:py-4 select-none">
+          <div className="w-full text-center overflow-hidden py-2 sm:py-4">
             <motion.h1
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}

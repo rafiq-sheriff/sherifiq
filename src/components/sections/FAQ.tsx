@@ -72,7 +72,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative w-full bg-white text-[#181538] py-20 sm:py-28 lg:py-32 px-6 sm:px-12 lg:px-20 select-none overflow-hidden"
+      className="relative w-full bg-white text-[#181538] py-20 sm:py-28 lg:py-32 px-6 sm:px-12 lg:px-20 overflow-hidden"
     >
       <div className="w-full max-w-[1100px] mx-auto">
         {/* Section Heading */}

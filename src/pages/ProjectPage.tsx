@@ -231,6 +231,7 @@ export default function ProjectPage() {
         position="right"
         colors={['#05030a', '#181538', '#28106f', '#5B72FF']}
         accentColor="#8b5cf6"
+        wordmarkColor="#5b72ff"
         displayDownloadCv={false}
         onMenuOpen={() => lenisRef.current?.stop()}
         onMenuClose={() => lenisRef.current?.start()}

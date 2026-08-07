@@ -32,7 +32,7 @@ export default function CTA() {
   const logoY = useTransform(scrollYProgress, [0, 0.5, 1], [-550, 0, 550]);
 
   return (
-    <div ref={containerRef} className="relative w-full bg-white select-none overflow-hidden">
+    <div ref={containerRef} className="relative w-full bg-white overflow-hidden">
       <motion.section
         id="cta"
         style={{

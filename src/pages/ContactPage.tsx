@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 import BrandLogo from '../components/ui/BrandLogo';
 import StaggeredMenu from '../components/navigator/staggered-menu/StaggeredMenu';
+import ContactFormSection from '../components/sections/ContactFormSection';
 import Footer from '../components/navigator/footer/Footer';
 
 export default function ContactPage() {
@@ -48,6 +49,7 @@ export default function ContactPage() {
         position="right"
         colors={['#05030a', '#181538', '#28106f', '#5B72FF']}
         accentColor="#8b5cf6"
+        wordmarkColor="#5b72ff"
         displayDownloadCv={false}
         onMenuOpen={() => lenisRef.current?.stop()}
         onMenuClose={() => lenisRef.current?.start()}
@@ -150,10 +152,10 @@ export default function ContactPage() {
             scale: cardScale,
             borderRadius: cardBorderRadius,
           }}
-          className="relative w-full bg-[#5b72ff] p-6 sm:p-12 lg:p-14 text-white min-h-[460px] sm:min-h-[560px] flex flex-col justify-between transform-gpu origin-center will-change-transform"
+          className="relative w-full bg-[#5b72ff] p-6 sm:p-12 lg:p-14 text-white min-h-fit lg:min-h-[560px] flex flex-col justify-between items-center lg:items-start transform-gpu origin-center will-change-transform overflow-visible"
         >
-          {/* Top Left Text inside Blue Box */}
-          <div className="relative z-10 max-w-sm mb-36 lg:mb-0">
+          {/* 1. Title inside Blue Box (Centered in Mobile) */}
+          <div className="relative z-10 w-full lg:max-w-sm text-center lg:text-left mb-4 lg:mb-0">
             <h2 className="font-sora font-semibold text-3xl sm:text-4xl lg:text-[42px] leading-tight tracking-tight text-white mb-2">
               Follow us on
             </h2>
@@ -167,17 +169,17 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Larger Mockup Artwork Popping Outside the Top of Blue Box */}
-          <div className="absolute -top-24 sm:-top-36 lg:-top-44 -right-2 sm:right-0 lg:-right-4 w-[98%] sm:w-[92%] lg:w-[82%] xl:w-[84%] max-w-[1120px] pointer-events-none select-none z-20">
+          {/* 2. Mockup Artwork (Centered in Middle on Mobile, Popping Top Right on Desktop) */}
+          <div className="relative lg:absolute lg:-top-36 xl:-top-48 lg:-right-4 w-[108%] -mx-[4%] sm:w-[98%] sm:mx-0 lg:w-[88%] xl:w-[90%] max-w-[1300px] pointer-events-none select-none z-20 my-2 lg:my-0 flex justify-center">
             <img
               src="/assets/contact/contact_mockup.webp"
               alt="Sherifiq Showcase Mockup"
-              className="w-full h-auto object-contain drop-shadow-2xl"
+              className="w-full h-auto object-contain drop-shadow-2xl scale-105 sm:scale-105 lg:scale-100"
             />
           </div>
 
-          {/* Bottom Action Pill Buttons (Instagram & LinkedIn in Signature White Pill Style) */}
-          <div className="relative z-30 flex flex-wrap items-center justify-center gap-4 pt-8">
+          {/* 3. Bottom Action Pill Buttons (Instagram & LinkedIn) */}
+          <div className="relative z-30 flex flex-wrap items-center justify-center gap-4 pt-4 lg:pt-8 w-full">
             {/* Instagram Button in Signature White Pill Style */}
             <a
               href="https://instagram.com"
@@ -301,6 +303,9 @@ export default function ContactPage() {
           </div>
         </motion.div>
       </section>
+
+      {/* ── Professional Contact Form Section ── */}
+      <ContactFormSection />
 
       {/* ── Footer Section ── */}
       <div className="relative z-10 w-full bg-white">

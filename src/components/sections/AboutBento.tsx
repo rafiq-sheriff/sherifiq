@@ -19,7 +19,7 @@ function ScrollRevealHeadline() {
   return (
     <h2
       ref={containerRef}
-      className="font-sora font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.25] tracking-tight text-center max-w-[1000px] mx-auto flex flex-wrap justify-center gap-x-[0.3em] gap-y-1 select-none"
+      className="font-sora font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.25] tracking-tight text-center max-w-[1000px] mx-auto flex flex-wrap justify-center gap-x-[0.3em] gap-y-1"
     >
       {words.map((word, i) => {
         const start = i / words.length;
@@ -66,7 +66,7 @@ export default function AboutBento() {
   return (
     <section
       id="about-bento"
-      className="relative w-full pt-24 sm:pt-32 lg:pt-36 pb-8 px-5 sm:px-10 lg:px-16 overflow-hidden select-none"
+      className="relative w-full pt-24 sm:pt-32 lg:pt-36 pb-8 px-5 sm:px-10 lg:px-16 overflow-hidden"
       style={{ background: '#ffffff' }}
     >
       {/* ── Scroll-reveal Headline ── */}

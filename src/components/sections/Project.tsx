@@ -95,7 +95,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
         </div>
 
         {/* Foreground Content */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-5 sm:p-6 md:p-8 select-none">
+        <div className="relative z-10 h-full flex flex-col justify-between p-5 sm:p-6 md:p-8">
           <p className="font-sora font-semibold text-[32.45px] lg:text-[43.5px] text-white tracking-[-0.05em] max-w-[400px] whitespace-pre-line leading-[45px] sm:leading-[50px] md:leading-[60px]">
             {item.title}
           </p>
@@ -112,7 +112,7 @@ export default function Project() {
   return (
     <section
       id="selected-projects"
-      className="relative w-full bg-white text-neutral-900 py-16 lg:py-24 px-4 sm:px-8 lg:px-12 overflow-hidden select-none"
+      className="relative w-full bg-white text-neutral-900 py-16 lg:py-24 px-4 sm:px-8 lg:px-12 overflow-hidden"
     >
       <div className="relative z-10 max-w-[1400px] mx-auto">
         {/* Section Heading */}
