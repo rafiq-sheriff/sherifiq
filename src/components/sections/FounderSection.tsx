@@ -71,7 +71,7 @@ export default function FounderSection() {
             {/* Direct Full-Color SVG Social Icons */}
             <div className="flex items-center gap-5 pt-1">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/the.sherifiq"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram profile"
@@ -85,7 +85,7 @@ export default function FounderSection() {
               </a>
 
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/sherifiq"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn profile"

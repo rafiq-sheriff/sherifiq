@@ -130,7 +130,7 @@ export default function Footer() {
               {/* Bottom Go to Insta Button */}
               <div className="relative z-10 w-full flex justify-center sm:justify-start">
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/the.sherifiq"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group/btn inline-flex items-center justify-between gap-4 sm:gap-6 border border-white/80 bg-black/30 hover:bg-black/50 backdrop-blur-md text-white transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg"
@@ -199,7 +199,7 @@ export default function Footer() {
             {/* Left side: Social Links */}
             <div className="flex items-center justify-center gap-6">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/sherifiq"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors"
@@ -207,7 +207,7 @@ export default function Footer() {
                 LinkedIn
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/the.sherifiq"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors"

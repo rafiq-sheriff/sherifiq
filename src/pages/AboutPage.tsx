@@ -59,8 +59,8 @@ export default function AboutPage() {
           { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[
-          { label: 'Instagram', link: 'https://instagram.com' },
-          { label: 'LinkedIn', link: 'https://linkedin.com' },
+          { label: 'Instagram', link: 'https://www.instagram.com/the.sherifiq' },
+          { label: 'LinkedIn', link: 'https://www.linkedin.com/company/sherifiq' },
         ]}
       />
 

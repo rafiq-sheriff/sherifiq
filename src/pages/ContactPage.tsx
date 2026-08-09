@@ -60,8 +60,8 @@ export default function ContactPage() {
           { label: 'Contact', ariaLabel: 'Current page: Contact', link: '/contact' },
         ]}
         socialItems={[
-          { label: 'Instagram', link: 'https://instagram.com' },
-          { label: 'LinkedIn', link: 'https://linkedin.com' },
+          { label: 'Instagram', link: 'https://www.instagram.com/the.sherifiq' },
+          { label: 'LinkedIn', link: 'https://www.linkedin.com/company/sherifiq' },
         ]}
       />
 
@@ -134,7 +134,7 @@ export default function ContactPage() {
                   Follow
                 </h3>
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/the.sherifiq"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-sans text-base sm:text-lg text-neutral-600 hover:text-[#5b72ff] font-normal leading-relaxed transition-colors block whitespace-nowrap"
@@ -142,7 +142,7 @@ export default function ContactPage() {
                   Instagram
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/company/sherifiq"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-sans text-base sm:text-lg text-neutral-600 hover:text-[#5b72ff] font-normal leading-relaxed transition-colors block whitespace-nowrap"
@@ -195,7 +195,7 @@ export default function ContactPage() {
           <div className="relative z-30 flex flex-wrap items-center justify-center gap-4 pt-4 lg:pt-8 w-full">
             {/* Instagram Button in Signature White Pill Style */}
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/the.sherifiq"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center justify-between gap-4 bg-white text-[#181538] hover:bg-neutral-100 transition-all duration-300 pl-6 sm:pl-7 pr-2 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-lg active:scale-95 cursor-pointer"
@@ -223,7 +223,7 @@ export default function ContactPage() {
 
             {/* LinkedIn Button in Signature White Pill Style */}
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/sherifiq"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center justify-between gap-4 bg-white text-[#181538] hover:bg-neutral-100 transition-all duration-300 pl-6 sm:pl-7 pr-2 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-lg active:scale-95 cursor-pointer"
