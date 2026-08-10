@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
-import BrandLogo from '../components/ui/BrandLogo';
 import StaggeredMenu from '../components/navigator/staggered-menu/StaggeredMenu';
 import ContactFormSection from '../components/sections/ContactFormSection';
 import Footer from '../components/navigator/footer/Footer';
@@ -57,6 +56,7 @@ export default function ContactPage() {
           { label: 'Home', ariaLabel: 'Go to Home page', link: '/' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
           { label: 'Project', ariaLabel: 'Go to Project page', link: '/project' },
+          { label: 'Forms', ariaLabel: 'Go to Forms page', link: '/forms' },
           { label: 'Contact', ariaLabel: 'Current page: Contact', link: '/contact' },
         ]}
         socialItems={[

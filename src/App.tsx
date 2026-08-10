@@ -18,6 +18,7 @@ import AboutPage from './pages/AboutPage';
 import About2Page from './pages/About2Page';
 import ProjectPage from './pages/ProjectPage';
 import ContactPage from './pages/ContactPage';
+import FormsPage from './pages/FormsPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,6 +55,10 @@ export default function App() {
     currentPath === '/projects/'
   ) {
     return <ProjectPage />;
+  }
+
+  if (currentPath === '/forms' || currentPath === '/forms/') {
+    return <FormsPage />;
   }
 
   if (currentPath === '/contact' || currentPath === '/contact/') {
@@ -119,6 +124,7 @@ export default function App() {
           { label: 'Home', ariaLabel: 'Go to Home section', link: '#hero' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
           { label: 'Project', ariaLabel: 'Go to Project page', link: '/project' },
+          { label: 'Forms', ariaLabel: 'Go to Forms page', link: '/forms' },
           { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[

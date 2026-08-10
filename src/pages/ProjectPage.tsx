@@ -239,6 +239,7 @@ export default function ProjectPage() {
           { label: 'Home', ariaLabel: 'Go to Home page', link: '/' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
           { label: 'Project', ariaLabel: 'Current page: Project', link: '/project' },
+          { label: 'Forms', ariaLabel: 'Go to Forms page', link: '/forms' },
           { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[
