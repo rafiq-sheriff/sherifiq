@@ -1,7 +1,5 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 import BrandLogo from '../components/ui/BrandLogo';
 import StaggeredMenu from '../components/navigator/staggered-menu/StaggeredMenu';
@@ -20,6 +18,24 @@ export interface ProjectArchiveItem {
 export const projectArchiveData: ProjectArchiveItem[] = [
   {
     id: 1,
+    title: 'Lumiere',
+    year: '2026',
+    industry: 'E-Commerce',
+    category: 'Website',
+    image: '/assets/projects/lumiere.webp',
+    link: 'https://lumiere-sherifiq.vercel.app',
+  },
+  {
+    id: 2,
+    title: 'Forma',
+    year: '2026',
+    industry: 'Interior Design',
+    category: 'Website',
+    image: '/assets/projects/forma.webp',
+    link: 'https://interior-design-sherifiq.vercel.app',
+  },
+  {
+    id: 3,
     title: 'Helix AI',
     year: '2025',
     industry: 'IT',
@@ -28,31 +44,13 @@ export const projectArchiveData: ProjectArchiveItem[] = [
     link: 'https://helix-ai.ascodelabs.com',
   },
   {
-    id: 2,
-    title: 'Personal Portfolio',
-    year: '2025',
-    industry: 'Personal',
-    category: 'Website',
-    image: '/assets/projects/portfolio.webp',
-    link: 'https://rafiqsheriff-portfolio.vercel.app',
-  },
-  {
-    id: 3,
+    id: 4,
     title: 'S H Health Centre',
     year: '2026',
     industry: 'Healthcare',
     category: 'Website',
     image: '/assets/projects/s-h-health-center.webp',
     link: 'https://shhealthcentre.com',
-  },
-  {
-    id: 4,
-    title: 'Habit Trace',
-    year: '2026',
-    industry: 'Productivity',
-    category: 'Web Application',
-    image: '/assets/projects/habit-trace.webp',
-    link: 'https://habit-trace.vercel.app',
   },
   {
     id: 5,
@@ -63,7 +61,271 @@ export const projectArchiveData: ProjectArchiveItem[] = [
     image: '/assets/projects/ams.webp',
     link: 'https://attendance-fixed-frontend.vercel.app',
   },
+  {
+    id: 6,
+    title: 'Personal Portfolio v2',
+    year: '2026',
+    industry: 'Personal',
+    category: 'Website',
+    image: '/assets/projects/portfolio.webp',
+    link: 'https://rafiqsheriff-portfolio.vercel.app',
+  },
+  {
+    id: 7,
+    title: 'Personal Portfolio',
+    year: '2025',
+    industry: 'Personal',
+    category: 'Website',
+    image: '/assets/projects/personal-portfolio-2.webp',
+    link: 'https://rafiq-sheriff-portfolio.vercel.app',
+  },
+  {
+    id: 8,
+    title: 'Habit Trace',
+    year: '2026',
+    industry: 'Productivity',
+    category: 'Web Application',
+    image: '/assets/projects/habit-trace.webp',
+    link: 'https://habit-trace.vercel.app',
+  },
+  {
+    id: 9,
+    title: 'AS Codelabs',
+    year: '2026',
+    industry: 'IT',
+    category: 'Website',
+    image: '/assets/projects/a-s-codelabs.webp',
+    link: 'https://ascodelabs.com',
+  },
+  {
+    id: 10,
+    title: 'Analytics Avenue',
+    year: '2026',
+    industry: 'EdTech',
+    category: 'Website',
+    image: '/assets/projects/analytics-avenue.webp',
+    link: 'https://analyticsavenue.in',
+  },
 ];
+
+const FILTER_CATEGORIES = [
+  'All',
+  'E-Commerce',
+  'Portfolio',
+  'Healthcare',
+  'IT',
+  'Web Application',
+  'SaaS',
+  'Interior Design',
+  'EdTech',
+];
+
+// Exact category matcher function to prevent false substring matches (e.g., 'it' inside 'website')
+function isProjectMatch(item: ProjectArchiveItem, filter: string): boolean {
+  if (filter === 'All') return true;
+  const f = filter.toLowerCase();
+  const titleLower = item.title.toLowerCase();
+  const industryLower = item.industry.toLowerCase();
+  const categoryLower = item.category.toLowerCase();
+
+  if (f === 'portfolio') {
+    return (
+      titleLower.includes('portfolio') ||
+      industryLower === 'personal' ||
+      categoryLower.includes('portfolio')
+    );
+  }
+
+  if (f === 'it') {
+    return industryLower === 'it' || categoryLower === 'it';
+  }
+
+  if (f === 'saas') {
+    return categoryLower === 'saas' || industryLower === 'enterprise' || industryLower === 'saas';
+  }
+
+  if (f === 'edtech') {
+    return industryLower === 'edtech' || categoryLower === 'edtech';
+  }
+
+  if (f === 'interior design') {
+    return industryLower === 'interior design' || categoryLower === 'interior design';
+  }
+
+  if (f === 'e-commerce') {
+    return industryLower === 'e-commerce' || categoryLower === 'e-commerce';
+  }
+
+  if (f === 'healthcare') {
+    return industryLower === 'healthcare' || categoryLower === 'healthcare';
+  }
+
+  if (f === 'web application') {
+    return categoryLower === 'web application' || industryLower === 'productivity';
+  }
+
+  return (
+    industryLower === f ||
+    categoryLower === f ||
+    titleLower.includes(f)
+  );
+}
+
+/* ── Custom Professional Dropdown Filter Component ── */
+function ProjectFilterDropdown({
+  categories,
+  selectedFilter,
+  onSelectFilter,
+  projectCounts,
+}: {
+  categories: string[];
+  selectedFilter: string;
+  onSelectFilter: (category: string) => void;
+  projectCounts: Record<string, number>;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={dropdownRef} className="relative inline-block text-left z-50">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="group inline-flex items-center justify-between gap-3 px-5 py-3 bg-white border border-neutral-200/90 hover:border-neutral-400 rounded-2xl font-medium text-sm sm:text-base text-[#181538] shadow-sm hover:shadow-md transition-all duration-300 active:scale-98 cursor-pointer min-w-[220px]"
+      >
+        <div className="flex items-center gap-2.5">
+          {/* Sliders / Filter Funnel Icon */}
+          <span className="w-8 h-8 rounded-xl bg-[#5b72ff]/10 group-hover:bg-[#5b72ff]/20 flex items-center justify-center transition-colors">
+            <svg
+              className="w-4 h-4 text-[#5b72ff]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+              />
+            </svg>
+          </span>
+          <div className="flex flex-col text-left">
+            <span className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold leading-none mb-0.5">
+              Filter Category
+            </span>
+            <span className="font-semibold text-neutral-900 text-sm leading-tight">
+              {selectedFilter === 'All' ? 'All Projects' : selectedFilter}
+            </span>
+          </div>
+        </div>
+
+        <span className="flex items-center gap-2 ml-1">
+          <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-neutral-100 text-[#181538]">
+            {projectCounts[selectedFilter] ?? 0}
+          </span>
+          {/* Chevron Icon */}
+          <svg
+            className={`w-4 h-4 text-neutral-400 transition-transform duration-300 ${
+              isOpen ? 'rotate-180 text-[#5b72ff]' : ''
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </span>
+      </button>
+
+      {/* Popover Dropdown Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="absolute right-0 mt-2 w-72 max-h-[480px] overflow-y-auto bg-white rounded-2xl border border-neutral-200/90 shadow-2xl shadow-indigo-950/20 p-2 z-[100] no-scrollbar"
+          >
+            <div className="px-3 py-2 text-[11px] font-semibold tracking-wider text-neutral-400 uppercase border-b border-neutral-100 mb-1 flex items-center justify-between">
+              <span>Categories</span>
+              <span>{categories.length - 1} Filters</span>
+            </div>
+
+            <div className="space-y-0.5 py-1">
+              {categories.map((category) => {
+                const isSelected = selectedFilter === category;
+                const count = projectCounts[category] ?? 0;
+
+                return (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      onSelectFilter(category);
+                      setIsOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#181538] text-white shadow-sm'
+                        : 'text-neutral-700 hover:bg-neutral-100 hover:text-black'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2.5 truncate">
+                      {isSelected ? (
+                        <svg
+                          className="w-4 h-4 text-[#5b72ff] shrink-0"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2.5"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      ) : (
+                        <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 shrink-0" />
+                      )}
+                      <span className="truncate">{category === 'All' ? 'All Projects' : category}</span>
+                    </span>
+
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full font-semibold shrink-0 ml-2 ${
+                        isSelected
+                          ? 'bg-white/20 text-white'
+                          : 'bg-neutral-100 text-neutral-500 border border-neutral-200/60'
+                      }`}
+                    >
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 /* Project Card Row - Mobile order: Title -> Image -> Line -> Badges -> Button */
 function ProjectArchiveRow({ item }: { item: ProjectArchiveItem }) {
@@ -81,7 +343,7 @@ function ProjectArchiveRow({ item }: { item: ProjectArchiveItem }) {
   return (
     <div
       ref={rowRef}
-      className="relative w-full bg-white rounded-[28px] sm:rounded-[36px] border border-neutral-200/80 p-6 sm:p-10 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 sm:gap-8 overflow-hidden transform-gpu shadow-sm text-center lg:text-left"
+      className="relative w-full bg-white rounded-[28px] sm:rounded-[36px] border border-neutral-200/80 p-6 sm:p-10 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 sm:gap-8 overflow-hidden transform-gpu shadow-sm text-center lg:text-left z-10"
     >
       {/* ── Mobile Layout Container (title -> image -> horizontal line -> badge -> button) ── */}
       <div className="flex flex-col lg:hidden w-full items-center">
@@ -202,6 +464,7 @@ function ProjectArchiveRow({ item }: { item: ProjectArchiveItem }) {
 
 export default function ProjectPage() {
   const lenisRef = useRef<Lenis | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState('All');
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -222,6 +485,15 @@ export default function ProjectPage() {
     };
   }, []);
 
+  // Compute dynamic project counts per category
+  const projectCounts: Record<string, number> = { All: projectArchiveData.length };
+  FILTER_CATEGORIES.forEach((cat) => {
+    if (cat === 'All') return;
+    projectCounts[cat] = projectArchiveData.filter((item) => isProjectMatch(item, cat)).length;
+  });
+
+  const filteredProjects = projectArchiveData.filter((item) => isProjectMatch(item, selectedFilter));
+
   return (
     <main className="relative min-h-screen bg-[#F5F5F5] text-neutral-900 font-sans selection:bg-[#5b72ff] selection:text-white overflow-x-hidden">
       {/* ── Global Fixed Staggered Menu ── */}
@@ -239,7 +511,6 @@ export default function ProjectPage() {
           { label: 'Home', ariaLabel: 'Go to Home page', link: '/' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
           { label: 'Project', ariaLabel: 'Current page: Project', link: '/project' },
-          { label: 'Forms', ariaLabel: 'Go to Forms page', link: '/forms' },
           { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[
@@ -284,12 +555,50 @@ export default function ProjectPage() {
       </section>
 
       {/* ── Projects Archive List Section ── */}
-      <section className="relative z-10 pb-28 px-6 sm:px-12 max-w-7xl mx-auto">
-        <div className="space-y-6 sm:space-y-8">
-          {projectArchiveData.map((item) => (
-            <ProjectArchiveRow key={item.id} item={item} />
-          ))}
+      <section className="relative z-20 pb-28 px-6 sm:px-12 max-w-7xl mx-auto">
+        {/* Sleek Minimalist Filter Header Bar */}
+        <div className="relative z-40 mb-8 sm:mb-12 flex items-center justify-between gap-4 py-2 border-b border-neutral-200/80">
+          <div className="flex items-center gap-3">
+            <h2 className="font-sora font-bold text-lg sm:text-xl text-[#181538] tracking-tight">
+              Selected Works
+            </h2>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-neutral-200/70 text-neutral-700">
+              Showing {filteredProjects.length} of {projectArchiveData.length}
+            </span>
+          </div>
+
+          {/* High-end Custom Dropdown Button */}
+          <ProjectFilterDropdown
+            categories={FILTER_CATEGORIES}
+            selectedFilter={selectedFilter}
+            onSelectFilter={setSelectedFilter}
+            projectCounts={projectCounts}
+          />
         </div>
+
+        {/* Animated Project Rows */}
+        <motion.div layout className="space-y-6 sm:space-y-8 relative z-10">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((item) => (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4 }}
+              >
+                <ProjectArchiveRow item={item} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {filteredProjects.length === 0 && (
+          <div className="text-center py-16 text-neutral-500 font-medium bg-white rounded-3xl border border-neutral-200/80">
+            No projects found for "{selectedFilter}".
+          </div>
+        )}
       </section>
 
       {/* ── Footer Section ── */}

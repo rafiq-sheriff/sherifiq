@@ -56,7 +56,6 @@ export default function ContactPage() {
           { label: 'Home', ariaLabel: 'Go to Home page', link: '/' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
           { label: 'Project', ariaLabel: 'Go to Project page', link: '/project' },
-          { label: 'Forms', ariaLabel: 'Go to Forms page', link: '/forms' },
           { label: 'Contact', ariaLabel: 'Current page: Contact', link: '/contact' },
         ]}
         socialItems={[

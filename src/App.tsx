@@ -124,7 +124,6 @@ export default function App() {
           { label: 'Home', ariaLabel: 'Go to Home section', link: '#hero' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
           { label: 'Project', ariaLabel: 'Go to Project page', link: '/project' },
-          { label: 'Forms', ariaLabel: 'Go to Forms page', link: '/forms' },
           { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[

@@ -54,7 +54,6 @@ export default function AboutPage() {
           { label: 'Home', ariaLabel: 'Go to Home page', link: '/' },
           { label: 'About', ariaLabel: 'Current page: About', link: '/about' },
           { label: 'Project', ariaLabel: 'Go to Project page', link: '/project' },
-          { label: 'Forms', ariaLabel: 'Go to Forms page', link: '/forms' },
           { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[

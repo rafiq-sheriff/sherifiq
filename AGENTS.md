@@ -1,6 +1,6 @@
-# figma-make-app
+# sherifiq-website
 
-React + Vite + Tailwind CSS project running inside Figma Make.
+React + Vite + Tailwind CSS project for Sherifiq.
 
 ## Development Server
 

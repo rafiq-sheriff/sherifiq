@@ -16,47 +16,63 @@ export interface WorkItem {
 export const worksData: WorkItem[] = [
   {
     id: 1,
+    title: 'Lumiere',
+    category: '2026 • E-Commerce • Website',
+    image: '/assets/projects/lumiere.webp',
+    link: 'https://lumiere-sherifiq.vercel.app',
+  },
+  {
+    id: 2,
     title: 'Helix Ai',
     category: '2025 • IT • Website',
     image: '/assets/projects/helix.webp',
     link: 'https://helix-ai.ascodelabs.com',
   },
   {
-    id: 2,
-    title: 'Personal Portfolio',
-    category: '2025 • Personal • Website',
-    image: '/assets/projects/portfolio.webp',
-    link: 'https://rafiqsheriff-portfolio.vercel.app',
-  },
-  {
     id: 3,
-    title: 'S H Health Centre',
-    category: '2026 • Healthcare • Platform',
-    image: '/assets/projects/s-h-health-center.webp',
-    link: 'https://shhealthcentre.com',
-  },
-  {
-    id: 4,
     title: 'Habit Trace',
     category: '2026 • Product • Mobile & Web',
     image: '/assets/projects/habit-trace.webp',
     link: 'https://habit-trace.vercel.app',
   },
   {
+    id: 4,
+    title: 'Forma',
+    category: '2026 • Interior Design • Website',
+    image: '/assets/projects/forma.webp',
+    link: 'https://interior-design-sherifiq.vercel.app',
+  },
+  {
     id: 5,
+    title: 'Personal Portfolio v2',
+    category: '2026 • Personal • Website',
+    image: '/assets/projects/portfolio.webp',
+    link: 'https://rafiqsheriff-portfolio.vercel.app',
+  },
+  {
+    id: 6,
     title: 'AMS Platform',
     category: '2026 • Enterprise • SaaS',
     image: '/assets/projects/ams.webp',
     link: 'https://attendance-fixed-frontend.vercel.app',
   },
+  {
+    id: 7,
+    title: 'S H Health Centre',
+    category: '2026 • Healthcare • Platform',
+    image: '/assets/projects/s-h-health-center.webp',
+    link: 'https://shhealthcentre.com',
+  },
 ];
 
 export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
-  // 5 boxes 2-1-2 Wireframe layout:
-  // Index 0, 1: 1 col each (Row 1: 2 boxes)
-  // Index 2: lg:col-span-2 (Row 2: 1 wide box)
-  // Index 3, 4: 1 col each (Row 3: 2 boxes)
-  const isWide = index === 2;
+  // Grid layout (1-2-1-2-1):
+  // Index 0 (Lumiere): Row 1 (wide - lg:col-span-2)
+  // Index 1, 2 (Helix Ai, Habit Trace): Row 2 (1 col each)
+  // Index 3 (Forma): Row 3 (wide - lg:col-span-2)
+  // Index 4, 5 (Personal Portfolio, AMS Platform): Row 4 (1 col each)
+  // Index 6 (S H Health Centre): Row 5 (wide - lg:col-span-2)
+  const isWide = index === 0 || index === 3 || index === 6;
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Scroll-driven parallax target per individual card

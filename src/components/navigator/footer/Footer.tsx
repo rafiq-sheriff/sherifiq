@@ -163,9 +163,6 @@ export default function Footer() {
               <a href="/project" className="hover:text-white transition-colors">
                 Project
               </a>
-              <a href="/forms" className="hover:text-white transition-colors">
-                Forms
-              </a>
               <a href="/contact" className="hover:text-white transition-colors">
                 Contact
               </a>

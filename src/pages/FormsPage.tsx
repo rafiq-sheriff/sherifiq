@@ -76,7 +76,6 @@ export default function FormsPage() {
           { label: 'Home', ariaLabel: 'Go to Home page', link: '/' },
           { label: 'About', ariaLabel: 'Go to About page', link: '/about' },
           { label: 'Project', ariaLabel: 'Go to Project page', link: '/project' },
-          { label: 'Forms', ariaLabel: 'Current page: Forms', link: '/forms' },
           { label: 'Contact', ariaLabel: 'Go to Contact page', link: '/contact' },
         ]}
         socialItems={[
