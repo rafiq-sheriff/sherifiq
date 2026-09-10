@@ -547,7 +547,7 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                   draggable={false}
                 />
               ) : (
-                <div className="w-[42px] h-[52px] sm:w-[44px] sm:h-[54px] bg-[#5b72ff] rounded-[22px] flex items-center justify-center shadow-md transition-transform duration-500 group-hover:scale-105">
+                <div className="w-[42px] h-[54px] sm:w-[44px] sm:h-[58px] bg-[#5b72ff] rounded-full flex items-center justify-center shadow-md transition-transform duration-500 group-hover:scale-105">
                   <BrandLogo
                     className="h-6 sm:h-7 w-auto text-white"
                     fill="#ffffff"

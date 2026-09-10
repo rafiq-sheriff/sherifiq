@@ -8,6 +8,7 @@ interface BrandLogoProps {
   progress?: number; // 0 to 100
   animatedFill?: boolean;
   useGradient?: boolean;
+  variant?: 'navbar' | 'full';
 }
 
 export function BrandLogo({
@@ -17,6 +18,7 @@ export function BrandLogo({
   progress = 0,
   animatedFill = false,
   useGradient = false,
+  variant = 'navbar',
 }: BrandLogoProps) {
   const clipId = React.useId().replace(/:/g, '_');
   const gradientId = `brand_logo_gradient_${clipId}`;
@@ -84,6 +86,37 @@ export function BrandLogo({
             fill={actualFill}
             animate={{ x: [0, -43] }}
             transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
+          />
+        </g>
+      </svg>
+    );
+  }
+
+  if (variant === 'full') {
+    return (
+      <svg
+        width="495"
+        height="682"
+        viewBox="0 0 495 682"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+      >
+        <defs>
+          <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#434596" />
+            <stop offset="50%" stopColor="#313374" />
+            <stop offset="100%" stopColor="#25265E" />
+          </linearGradient>
+        </defs>
+        <g transform="translate(60, 60)">
+          <path
+            d="M4.95817 229.292L228.347 4.9789C238.939 -5.65705 257.051 1.87572 257.051 16.917V258.114H16.8477C1.86818 258.114 -5.63372 239.928 4.95817 229.292Z"
+            fill={actualFill}
+          />
+          <path
+            d="M369.588 332.533L146.199 556.847C135.607 567.482 117.496 559.95 117.496 544.908V303.711H357.699C372.678 303.711 380.18 321.897 369.588 332.533Z"
+            fill={actualFill}
           />
         </g>
       </svg>

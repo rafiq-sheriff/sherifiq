@@ -105,7 +105,7 @@ export default function App() {
   return (
     <main className="relative min-h-screen text-white selection:bg-blue-600 selection:text-white bg-white">
       {isLoading && <CinematicLoader onComplete={handleLoaderComplete} />}
-      
+
       {/* Global Fixed Staggered Menu as seen on portfolio website */}
       <StaggeredMenu
         isRevealed={logoSettled}
@@ -144,6 +144,7 @@ export default function App() {
         <Project />
         {/* <HowWeWork /> */}
         <CTA />
+        <Pricing />
         <FAQ />
         <Footer />
       </div>
