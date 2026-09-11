@@ -111,22 +111,6 @@ export default function LogoPage() {
     showToast(`Copied ${label} (${hex})`);
   };
 
-  const copyFullPalette = () => {
-    const data = JSON.stringify(
-      {
-        background: bgColor,
-        logo: logoColor,
-        menuBadgeBg: menuBadgeBg,
-        text: textColor,
-        variant: logoVariant,
-        textCase,
-      },
-      null,
-      2
-    );
-    navigator.clipboard.writeText(data);
-    showToast('Copied Brand Specs JSON!');
-  };
 
   // Ultra High-Resolution Export Handler
   const handleDownloadAsset = async (

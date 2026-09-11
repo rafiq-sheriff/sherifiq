@@ -144,7 +144,6 @@ export default function App() {
         <Project />
         {/* <HowWeWork /> */}
         <CTA />
-        <Pricing />
         <FAQ />
         <Footer />
       </div>
