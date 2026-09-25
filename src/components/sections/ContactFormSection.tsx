@@ -11,6 +11,7 @@ interface FormData {
   service: string;
   customService: string;
   message: string;
+  website?: string; // honeypot
 }
 
 export interface CountryCodeItem {
@@ -125,6 +126,7 @@ export default function ContactFormSection() {
     service: 'Portfolio',
     customService: '',
     message: '',
+    website: '', // honeypot
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -156,43 +158,42 @@ export default function ContactFormSection() {
     setIsSubmitting(true);
 
     try {
-      const endpoint =
-        import.meta.env.VITE_GOOGLE_SCRIPT_URL ||
-        'https://script.google.com/macros/s/AKfycbwXPvTa3A0UpYlynTWfAXqqXEnFfz-vhYilkMGHnauzoRJIokbCqGa0P1HqUaGCfyu9/exec';
-
-      const finalService =
-        formData.service === 'Other' && formData.customService.trim()
-          ? formData.customService.trim()
-          : formData.service;
-
-      const formattedPhone = formData.phone.trim()
-        ? `'${selectedCountry.code} ${formData.phone.trim()}`
-        : '';
-
       const payload = {
         name: formData.name.trim(),
         email: formData.email.trim(),
-        phone: formattedPhone,
-        service: finalService,
+        phone: formData.phone.trim(),
+        countryCode: selectedCountry.code,
+        service: formData.service,
+        customService: formData.customService.trim(),
         message: formData.message.trim(),
+        website: formData.website || '',
       };
 
-      await fetch(endpoint, {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
       });
 
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+      } else {
+        setIsSubmitting(false);
+        setSubmitError(
+          data.message ||
+            'Something went wrong while sending your message. Please try again or email us directly at rafiqsheriffs@gmail.com'
+        );
+      }
     } catch (err: any) {
       console.error('Form submission error:', err);
       setIsSubmitting(false);
       setSubmitError(
-        'Failed to submit form. Please try again or email directly at rafiqsheriffs@gmail.com'
+        'Something went wrong while sending your message. Please try again or email us directly at rafiqsheriffs@gmail.com'
       );
     }
   };
@@ -205,6 +206,7 @@ export default function ContactFormSection() {
       service: 'Portfolio',
       customService: '',
       message: '',
+      website: '',
     });
     setErrors({});
     setSubmitError(null);
@@ -330,6 +332,18 @@ export default function ContactFormSection() {
                     onSubmit={handleSubmit}
                     className="space-y-8"
                   >
+                    {/* Honeypot field for bot prevention */}
+                    <div style={{ display: 'none' }} aria-hidden="true">
+                      <input
+                        type="text"
+                        name="website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={formData.website || ''}
+                        onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                      />
+                    </div>
+
                     {/* Name & Email Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       {/* Name Field */}

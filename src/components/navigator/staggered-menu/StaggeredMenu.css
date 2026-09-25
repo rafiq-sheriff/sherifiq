@@ -24,22 +24,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 2.5rem;
+  padding: 2rem 3rem;
   background: transparent;
   pointer-events: none;
   z-index: 60;
 }
 
+@media (max-width: 1024px) {
+  .staggered-menu-header {
+    padding: 1.75rem 2rem;
+  }
+}
+
 @media (max-width: 640px) {
   .staggered-menu-header {
-    padding: 1rem 1.25rem;
+    padding: 1.25rem 1.5rem;
   }
 
   .sm-navbar-container {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
   }
 }
 

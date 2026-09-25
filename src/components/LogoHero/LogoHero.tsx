@@ -112,7 +112,7 @@ export default function LogoHero({
           {/* Grid Content Overlay */}
           <div className="relative z-20 flex-1 flex flex-col lg:grid lg:grid-cols-2 justify-between gap-6 lg:gap-0 pt-16 sm:pt-20 lg:pt-16 items-center lg:items-stretch w-full pointer-events-none text-center lg:text-left">
             {/* Left Column / Mobile Top Portion: Badge + Title */}
-            <div className="flex flex-col justify-start lg:justify-between h-auto lg:h-full pt-4 pb-2 lg:pt-8 lg:pb-2 pointer-events-none w-full items-center lg:items-start">
+            <div className="flex flex-col justify-start lg:justify-between h-auto lg:h-full pt-4 pb-2 lg:pt-8 lg:pb-2 pointer-events-none w-full items-center lg:items-start text-center lg:text-left">
               {/* Top-Left: Eyebrow / Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
@@ -126,7 +126,7 @@ export default function LogoHero({
                   ease: [0.22, 1, 0.36, 1],
                   delay: isContentRevealed ? 0.10 : 0,
                 }}
-                className="pointer-events-auto mx-auto lg:mx-0"
+                className="pointer-events-auto mx-auto lg:mx-0 lg:ml-0 lg:mr-auto flex justify-center lg:justify-start"
               >
                 <div className="relative overflow-hidden inline-flex items-center border border-white/20 bg-white/[0.05] backdrop-blur-md px-4 py-2 rounded-full text-xs md:text-sm font-medium tracking-wide shadow-sm">
                   {/* Animated Shimmer Flare Bar */}
@@ -147,8 +147,8 @@ export default function LogoHero({
               </motion.div>
 
               {/* Title (Top area on mobile) */}
-              <div className="pointer-events-auto mt-4 lg:mt-auto pt-4 lg:pt-0">
-                <h1 className="font-sora font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-[1.15] tracking-tight max-w-xl text-center lg:text-left">
+              <div className="pointer-events-auto mt-4 lg:mt-auto pt-4 lg:pt-0 w-full flex justify-center lg:justify-start">
+                <h1 className="font-sora font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[54px] leading-[1.15] tracking-tight max-w-xl text-center lg:text-left lg:ml-0">
                   {[
                     'We Build Digital',
                     'Products That Drive',
@@ -198,7 +198,7 @@ export default function LogoHero({
                   ease: [0.22, 1, 0.36, 1],
                   delay: isContentRevealed ? 0.36 : 0,
                 }}
-                className="pointer-events-auto lg:max-w-md text-center lg:text-right mx-auto lg:ml-auto mb-4 lg:mb-0"
+                className="pointer-events-auto lg:max-w-md text-center lg:text-right mx-auto lg:ml-auto lg:mr-0 mb-4 lg:mb-0"
               >
                 <p className="text-white text-sm sm:text-base md:text-[16px] leading-relaxed font-normal text-center lg:text-right">
                   From modern websites and SaaS platforms to AI automation and brand identity, we design and build digital experiences that help businesses scale faster
@@ -218,11 +218,11 @@ export default function LogoHero({
                   ease: [0.22, 1, 0.36, 1],
                   delay: isContentRevealed ? 0.44 : 0,
                 }}
-                className="pointer-events-auto flex items-center justify-center lg:justify-end w-full lg:w-auto"
+                className="pointer-events-auto flex items-center justify-center lg:justify-end w-full lg:w-auto lg:ml-auto lg:mr-0"
               >
                 <a
                   href="/contact"
-                  className="group inline-flex items-center justify-between gap-4 sm:gap-6 bg-white text-black hover:bg-neutral-100 transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg shadow-white/5 mx-auto lg:mx-0"
+                  className="group inline-flex items-center justify-between gap-4 sm:gap-6 bg-white text-black hover:bg-neutral-100 transition-all duration-300 pl-6 sm:pl-7 pr-2 sm:pr-2.5 py-2 sm:py-2.5 rounded-full font-medium text-base sm:text-[18px] active:scale-95 cursor-pointer shadow-lg shadow-white/5 mx-auto lg:mx-0 lg:ml-auto"
                 >
                   <span className="font-sans font-medium tracking-tight text-neutral-900">
                     Start your project

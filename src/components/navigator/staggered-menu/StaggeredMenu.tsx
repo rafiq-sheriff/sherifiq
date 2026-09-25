@@ -8,6 +8,8 @@ import React, {
   useState,
   type MouseEvent as ReactMouseEvent,
 } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { gsap } from 'gsap';
 import { motion } from 'framer-motion';
 import BrandLogo from '../../ui/BrandLogo';
@@ -84,6 +86,7 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   onDownloadCv,
   isRevealed = true,
 }) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -438,8 +441,8 @@ const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     }
 
     if (link.startsWith('/')) {
-      window.location.href = link;
       closeMenu();
+      router.push(link);
       return;
     }
 

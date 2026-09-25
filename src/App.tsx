@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
@@ -7,18 +9,11 @@ import CapabilitiesMarquee from './components/sections/CapabilitiesMarquee';
 import AboutBento from './components/sections/AboutBento';
 import Bento from './components/sections/Bento';
 import Project from './components/sections/Project';
-// import HowWeWork from './components/sections/HowWeWork';
 import CTA from './components/sections/CTA';
 import FAQ from './components/sections/FAQ';
 import Footer from './components/navigator/footer/Footer';
 import CinematicLoader from './components/ui/CinematicLoader';
 import StaggeredMenu from './components/navigator/staggered-menu/StaggeredMenu';
-import LogoPage from './pages/LogoPage';
-import AboutPage from './pages/AboutPage';
-import About2Page from './pages/About2Page';
-import ProjectPage from './pages/ProjectPage';
-import ContactPage from './pages/ContactPage';
-import FormsPage from './pages/FormsPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,44 +21,6 @@ export default function App() {
   const lenisRef = useRef<Lenis | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [logoSettled, setLogoSettled] = useState(false);
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
-
-  useEffect(() => {
-    const handleLocationChange = () => {
-      setCurrentPath(window.location.pathname);
-    };
-    window.addEventListener('popstate', handleLocationChange);
-    return () => window.removeEventListener('popstate', handleLocationChange);
-  }, []);
-
-  if (currentPath === '/logo' || currentPath === '/logo/') {
-    return <LogoPage />;
-  }
-
-  if (currentPath === '/about' || currentPath === '/about/') {
-    return <AboutPage />;
-  }
-
-  if (currentPath === '/about2' || currentPath === '/about2/') {
-    return <About2Page />;
-  }
-
-  if (
-    currentPath === '/project' ||
-    currentPath === '/project/' ||
-    currentPath === '/projects' ||
-    currentPath === '/projects/'
-  ) {
-    return <ProjectPage />;
-  }
-
-  if (currentPath === '/forms' || currentPath === '/forms/') {
-    return <FormsPage />;
-  }
-
-  if (currentPath === '/contact' || currentPath === '/contact/') {
-    return <ContactPage />;
-  }
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -142,7 +99,6 @@ export default function App() {
         <AboutBento />
         <Bento />
         <Project />
-        {/* <HowWeWork /> */}
         <CTA />
         <FAQ />
         <Footer />
