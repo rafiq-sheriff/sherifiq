@@ -29,6 +29,8 @@ export default function FounderSection() {
               <img
                 src="/assets/founder/founder.jpeg"
                 alt="Rafiq Sheriff - Founder & Lead"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover object-top transform-gpu transition-transform duration-700 group-hover:scale-105 filter contrast-105"
               />
 

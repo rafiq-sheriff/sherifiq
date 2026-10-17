@@ -198,46 +198,46 @@ function ProjectFilterDropdown({
   }, []);
 
   return (
-    <div ref={dropdownRef} className="relative inline-block text-left z-50">
+    <div ref={dropdownRef} className="relative block w-full md:inline-block md:w-auto text-left z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group inline-flex items-center justify-between gap-3 px-5 py-3 bg-white border border-neutral-200/90 hover:border-neutral-400 rounded-2xl font-medium text-sm sm:text-base text-[#181538] shadow-sm hover:shadow-md transition-all duration-300 active:scale-98 cursor-pointer min-w-[220px]"
+        className="group w-full md:w-auto inline-flex items-center justify-between gap-4 sm:gap-6 px-4 py-2.5 sm:px-5 sm:py-3 bg-white border border-neutral-200/90 hover:border-neutral-300 rounded-2xl sm:rounded-[20px] font-medium text-[#181538] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md transition-all duration-300 active:scale-[0.99] cursor-pointer md:min-w-[260px]"
       >
-        <div className="flex items-center gap-2.5">
-          {/* Sliders / Filter Funnel Icon */}
-          <span className="w-8 h-8 rounded-xl bg-[#5b72ff]/10 group-hover:bg-[#5b72ff]/20 flex items-center justify-center transition-colors">
+        <div className="flex items-center gap-3">
+          {/* Filter Funnel Icon in rounded circle */}
+          <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#F0F3F6] flex items-center justify-center shrink-0">
             <svg
-              className="w-4 h-4 text-[#5b72ff]"
+              className="w-4 h-4 text-neutral-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path
+              <polygon
+                points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+                strokeWidth="1.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
-                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
               />
             </svg>
           </span>
           <div className="flex flex-col text-left">
-            <span className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold leading-none mb-0.5">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-neutral-400 font-bold leading-none">
               Filter Category
             </span>
-            <span className="font-semibold text-neutral-900 text-sm leading-tight">
+            <span className="font-bold text-neutral-900 text-sm sm:text-[15px] leading-tight mt-1 truncate">
               {selectedFilter === 'All' ? 'All Projects' : selectedFilter}
             </span>
           </div>
         </div>
 
-        <span className="flex items-center gap-2 ml-1">
-          <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-neutral-100 text-[#181538]">
+        <div className="flex items-center gap-3 ml-2 shrink-0">
+          <span className="text-xs sm:text-sm font-semibold px-2.5 py-0.5 rounded-full bg-[#F0F3F6] text-neutral-700 min-w-[28px] text-center">
             {projectCounts[selectedFilter] ?? 0}
           </span>
           {/* Chevron Icon */}
           <svg
             className={`w-4 h-4 text-neutral-400 transition-transform duration-300 ${
-              isOpen ? 'rotate-180 text-[#5b72ff]' : ''
+              isOpen ? 'rotate-180' : ''
             }`}
             fill="none"
             stroke="currentColor"
@@ -250,7 +250,7 @@ function ProjectFilterDropdown({
               d="M19 9l-7 7-7-7"
             />
           </svg>
-        </span>
+        </div>
       </button>
 
       {/* Popover Dropdown Menu */}
@@ -261,7 +261,7 @@ function ProjectFilterDropdown({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="absolute right-0 mt-2 w-72 max-h-[480px] overflow-y-auto bg-white rounded-2xl border border-neutral-200/90 shadow-2xl shadow-indigo-950/20 p-2 z-[100] no-scrollbar"
+            className="absolute right-0 left-0 md:left-auto mt-2 w-full md:w-72 max-h-[480px] overflow-y-auto bg-white rounded-2xl border border-neutral-200/90 shadow-2xl shadow-neutral-950/10 p-2 z-[100] no-scrollbar"
           >
             <div className="px-3 py-2 text-[11px] font-semibold tracking-wider text-neutral-400 uppercase border-b border-neutral-100 mb-1 flex items-center justify-between">
               <span>Categories</span>
@@ -526,6 +526,8 @@ export default function ProjectPage() {
           <img
             src="/assets/projects/project.webp"
             alt="Project Hero Background"
+            decoding="async"
+            fetchPriority="high"
             className="w-full h-full object-cover object-[center_35%]"
           />
           {/* Subtle gradient overlay to keep signboard vibrant while preserving text readability */}
@@ -557,23 +559,25 @@ export default function ProjectPage() {
       {/* ── Projects Archive List Section ── */}
       <section className="relative z-20 pb-28 px-6 sm:px-12 max-w-7xl mx-auto">
         {/* Sleek Minimalist Filter Header Bar */}
-        <div className="relative z-40 mb-8 sm:mb-12 flex items-center justify-between gap-4 py-2 border-b border-neutral-200/80">
-          <div className="flex items-center gap-3">
-            <h2 className="font-sora font-bold text-lg sm:text-xl text-[#181538] tracking-tight">
+        <div className="relative z-40 mb-8 sm:mb-12 flex flex-col md:flex-row md:items-center md:justify-between gap-5 md:gap-6">
+          <div className="flex flex-col items-start gap-2.5 md:flex-row md:items-center md:gap-4">
+            <h2 className="font-sora font-semibold text-3xl sm:text-4xl lg:text-[44px] text-[#181538] tracking-tight leading-none">
               Selected Works
             </h2>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-neutral-200/70 text-neutral-700">
+            <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#EEF2F6] text-neutral-600 text-xs sm:text-sm font-medium tracking-tight">
               Showing {filteredProjects.length} of {projectArchiveData.length}
             </span>
           </div>
 
           {/* High-end Custom Dropdown Button */}
-          <ProjectFilterDropdown
-            categories={FILTER_CATEGORIES}
-            selectedFilter={selectedFilter}
-            onSelectFilter={setSelectedFilter}
-            projectCounts={projectCounts}
-          />
+          <div className="w-full md:w-auto">
+            <ProjectFilterDropdown
+              categories={FILTER_CATEGORIES}
+              selectedFilter={selectedFilter}
+              onSelectFilter={setSelectedFilter}
+              projectCounts={projectCounts}
+            />
+          </div>
         </div>
 
         {/* Animated Project Rows */}

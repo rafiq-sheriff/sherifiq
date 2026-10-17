@@ -71,6 +71,8 @@ export default function ContactPage() {
           <img
             src="/assets/contact/contact.webp"
             alt="Contact Hero Background"
+            decoding="async"
+            fetchPriority="high"
             className="w-full h-full object-cover object-center"
           />
           {/* Legibility and smooth section transition overlay */}
@@ -186,6 +188,8 @@ export default function ContactPage() {
             <img
               src="/assets/contact/contact_mockup.webp"
               alt="Sherifiq Showcase Mockup"
+              loading="lazy"
+              decoding="async"
               className="w-full h-auto object-contain drop-shadow-2xl scale-105 sm:scale-105 lg:scale-100"
             />
           </div>

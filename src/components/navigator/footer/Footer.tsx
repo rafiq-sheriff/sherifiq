@@ -75,6 +75,8 @@ export default function Footer() {
                   style={{ y: image1Y, scale: 1.18 }}
                   src="/assets/footer/sherifiq_branding.webp"
                   alt="Sherifiq Branding Billboard"
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover object-center transform-gpu will-change-transform"
                 />
               </div>
@@ -117,6 +119,8 @@ export default function Footer() {
                   style={{ y: image2Y, scale: 1.18 }}
                   src="/assets/footer/sherifiq_socialmedia.webp"
                   alt="Sherifiq Social Media Billboard"
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover object-center transform-gpu will-change-transform"
                 />
               </div>

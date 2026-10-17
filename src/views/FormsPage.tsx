@@ -91,6 +91,8 @@ export default function FormsPage() {
           <img
             src="/assets/forms/Large_City_Banner_Mockup.webp"
             alt="City Banner Hero Background"
+            decoding="async"
+            fetchPriority="high"
             className="w-full h-full object-cover object-center"
           />
           {/* Legibility and smooth section transition overlay */}

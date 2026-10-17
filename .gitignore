@@ -7,3 +7,6 @@ out/
 .env.local
 .env.*.local
 *.log
+.image_backups/
+*.tsbuildinfo
+

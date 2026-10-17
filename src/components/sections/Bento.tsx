@@ -95,6 +95,8 @@ export default function Bento() {
               <img
                 src="/assets/cleanstoneimg.webp"
                 alt="Projects Delivered"
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover rounded-3xl"
               />
             </video>
