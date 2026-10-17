@@ -1,53 +1,71 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import { verifiedStats } from '@/views/ProjectPage';
 
 /* ──────────────────────────────────────────────
    Animated Counter Component
+   Progressive enhancement: SSR renders the verified
+   value directly, so crawlers & JS-disabled users
+   never see 0+. On client mount, it smoothly animates
+   from 0 to value when scrolled into view.
    ────────────────────────────────────────────── */
-function AnimatedCounter({ value, duration = 2 }: { value: number; duration?: number }) {
-  const [count, setCount] = useState(0);
-  const [isInView, setIsInView] = useState(false);
+function AnimatedCounter({ value, duration = 1.8 }: { value: number; duration?: number }) {
+  // Initialize with value for SSR, SEO bots, and no-JS fallback
+  const [count, setCount] = useState(value);
   const ref = useRef<HTMLSpanElement>(null);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
+    // If user prefers reduced motion, keep static value
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const el = ref.current;
-    if (!el) return;
+    if (!el || animatedRef.current) return;
+
+    let animationFrame: number;
+
+    const startAnimation = () => {
+      if (animatedRef.current) return;
+      animatedRef.current = true;
+
+      let startTime: number | null = null;
+      const updateCount = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+        const easedProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        setCount(Math.round(easedProgress * value));
+
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(updateCount);
+        } else {
+          setCount(value);
+        }
+      };
+
+      setCount(0);
+      animationFrame = requestAnimationFrame(updateCount);
+    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true);
+          startAnimation();
+          observer.disconnect();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1, rootMargin: '0px 0px -20px 0px' }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
-  useEffect(() => {
-    if (!isInView) return;
-    let startTime: number;
-    let animationFrame: number;
-
-    const updateCount = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      const easedProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      setCount(Math.floor(easedProgress * value));
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(updateCount);
-      } else {
-        setCount(value);
-      }
+    return () => {
+      observer.disconnect();
+      if (animationFrame) cancelAnimationFrame(animationFrame);
     };
-
-    animationFrame = requestAnimationFrame(updateCount);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [isInView, value, duration]);
+  }, [value, duration]);
 
   return <span ref={ref}>{count}</span>;
 }
@@ -70,7 +88,7 @@ export default function Bento() {
                 Websites Built
               </span>
               <div className="text-[56px] sm:text-[68px] font-bold text-[#181538] tracking-tight leading-none mt-3 sm:mt-4">
-                <AnimatedCounter value={10} />
+                <AnimatedCounter value={verifiedStats.websitesBuilt} />
                 <span>+</span>
               </div>
             </div>
@@ -109,7 +127,7 @@ export default function Bento() {
             <div className="absolute bottom-5 left-5 right-5 z-[2]">
               <div className="bg-white rounded-2xl p-5">
                 <div className="text-[56px] sm:text-[68px] font-bold text-[#181538] tracking-tight leading-none">
-                  <AnimatedCounter value={16} />
+                  <AnimatedCounter value={verifiedStats.projectsDelivered} />
                   <span>+</span>
                 </div>
                 <p className="mt-1.5 text-[13px] text-gray-500 font-medium leading-snug">
@@ -131,7 +149,7 @@ export default function Bento() {
                   SaaS Products
                 </span>
                 <div className="text-[56px] sm:text-[68px] font-bold text-white tracking-tight leading-none mt-3 sm:mt-4">
-                  <AnimatedCounter value={4} />
+                  <AnimatedCounter value={verifiedStats.saasProducts} />
                   <span>+</span>
                 </div>
               </div>
@@ -149,7 +167,7 @@ export default function Bento() {
                 Web Applications
               </span>
               <div className="text-[56px] sm:text-[68px] font-bold text-white tracking-tight leading-none">
-                <AnimatedCounter value={2} />
+                <AnimatedCounter value={verifiedStats.webApps} />
                 <span>+</span>
               </div>
             </div>

@@ -8,21 +8,30 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Sherifiq • Digital Experiences & Web Engineering',
+  metadataBase: new URL('https://sherifiq.in'),
+  title: {
+    default: 'Sherifiq | Digital Experience Studio & Web Engineering',
+    template: '%s | Sherifiq',
+  },
   description:
-    'Crafting bespoke digital experiences, high-end web applications, and interactive visual engineering that elevate your brand.',
+    'Sherifiq crafts bespoke digital experiences, high-performance websites, scalable SaaS platforms, and modern web applications that elevate ambitious brands.',
   keywords: [
     'Sherifiq',
-    'Web Development',
+    'Web Development Studio',
     'Digital Experiences',
     'Creative Engineering',
     'UI/UX Design',
-    'React Developer',
-    'Frontend Specialist',
+    'SaaS Development',
+    'React & Next.js Developers',
+    'Frontend Specialists',
   ],
-  authors: [{ name: 'Sherifiq' }],
-  alternates: {
-    canonical: 'https://www.sherifiq.in/',
+  authors: [{ name: 'Sherifiq', url: 'https://sherifiq.in' }],
+  creator: 'Sherifiq',
+  publisher: 'Sherifiq',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
   icons: {
     icon: [
@@ -36,27 +45,38 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    url: 'https://www.sherifiq.in/',
+    url: 'https://sherifiq.in',
     siteName: 'Sherifiq',
-    title: 'Sherifiq • Digital Experiences & Web Engineering',
+    title: 'Sherifiq | Digital Experience Studio & Web Engineering',
     description:
-      'Crafting bespoke digital experiences, high-end web applications, and interactive visual engineering that elevate your brand.',
+      'Sherifiq crafts bespoke digital experiences, high-performance websites, scalable SaaS platforms, and modern web applications that elevate ambitious brands.',
     images: [
       {
-        url: 'https://www.sherifiq.in/og-image.webp',
+        url: '/og-image.webp',
         width: 1200,
         height: 630,
-        alt: 'Sherifiq • Digital Experiences & Web Engineering',
+        alt: 'Sherifiq | Digital Experience Studio & Web Engineering',
         type: 'image/webp',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sherifiq • Digital Experiences & Web Engineering',
+    title: 'Sherifiq | Digital Experience Studio & Web Engineering',
     description:
-      'Crafting bespoke digital experiences, high-end web applications, and interactive visual engineering that elevate your brand.',
-    images: ['https://www.sherifiq.in/og-image.webp'],
+      'Sherifiq crafts bespoke digital experiences, high-performance websites, scalable SaaS platforms, and modern web applications that elevate ambitious brands.',
+    images: ['/og-image.webp'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 

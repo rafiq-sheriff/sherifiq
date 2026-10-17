@@ -1,7 +1,6 @@
-'use client';
-
-import ProjectPage from '@/views/ProjectPage';
+import { redirect, RedirectType } from 'next/navigation';
 
 export default function ProjectsRoute() {
-  return <ProjectPage />;
+  redirect('/project', RedirectType.replace);
 }
+

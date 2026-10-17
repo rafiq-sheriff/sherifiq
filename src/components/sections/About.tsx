@@ -2,23 +2,30 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, MotionValue } from 'framer-motion';
+import { verifiedStats } from '@/views/ProjectPage';
 
-// Animated Counter component
-function AnimatedCounter({ value, duration = 2 }: { value: number; duration?: number }) {
-  const [count, setCount] = useState(0);
+// Animated Counter component with SSR and no-JS resilience
+function AnimatedCounter({ value, duration = 1.8 }: { value: number; duration?: number }) {
+  const [count, setCount] = useState(value);
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-40px' });
+  const animatedRef = useRef(false);
+  const isInView = useInView(ref, { once: true, margin: '-20px' });
 
   useEffect(() => {
-    if (!isInView) return;
-    let startTime: number;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+    if (!isInView || animatedRef.current) return;
+    animatedRef.current = true;
+
+    let startTime: number | null = null;
     let animationFrame: number;
 
     const updateCount = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
       const easedProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      setCount(Math.floor(easedProgress * value));
+      setCount(Math.round(easedProgress * value));
 
       if (progress < 1) {
         animationFrame = requestAnimationFrame(updateCount);
@@ -27,6 +34,7 @@ function AnimatedCounter({ value, duration = 2 }: { value: number; duration?: nu
       }
     };
 
+    setCount(0);
     animationFrame = requestAnimationFrame(updateCount);
     return () => cancelAnimationFrame(animationFrame);
   }, [isInView, value, duration]);
@@ -36,23 +44,23 @@ function AnimatedCounter({ value, duration = 2 }: { value: number; duration?: nu
 
 const statistics = [
   {
-    label: 'Project Delivered',
-    number: 10,
+    label: 'Projects Delivered',
+    number: verifiedStats.projectsDelivered,
     suffix: '+',
   },
   {
-    label: 'Websites Build',
-    number: 10,
+    label: 'Websites Built',
+    number: verifiedStats.websitesBuilt,
     suffix: '+',
   },
   {
     label: 'Web Applications',
-    number: 2,
+    number: verifiedStats.webApps,
     suffix: '+',
   },
   {
-    label: 'Saas Products',
-    number: 4,
+    label: 'SaaS Products',
+    number: verifiedStats.saasProducts,
     suffix: '+',
   },
 ];

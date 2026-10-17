@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
@@ -107,6 +109,13 @@ export const projectArchiveData: ProjectArchiveItem[] = [
     link: 'https://analyticsavenue.in',
   },
 ];
+
+export const verifiedStats = {
+  projectsDelivered: projectArchiveData.length,
+  websitesBuilt: projectArchiveData.filter((p) => p.category === 'Website').length,
+  saasProducts: projectArchiveData.filter((p) => p.category === 'SaaS').length,
+  webApps: projectArchiveData.filter((p) => p.category === 'Web Application').length,
+};
 
 const FILTER_CATEGORIES = [
   'All',
